@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌈 Smart English Handbook – Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --r:#FF6B6B; --o:#FF9F43; --y:#FECA57; --g:#1DD1A1; --b:#54A0FF;
+  --p:#A29BFE; --pk:#FD79A8; --tl:#48DBFB;
+  --bg:#FFFEF7; --card:#FFFFFF; --txt:#2D3436; --txt2:#636E72;
+  --shadow:0 4px 20px rgba(0,0,0,0.08);
+  --shadow2:0 8px 32px rgba(0,0,0,0.14);
+  --radius:20px; --radius-sm:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Baloo 2','Nunito',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding-bottom:90px;overflow-x:hidden}
+
+/* RAINBOW BG STRIP */
+.rainbow-strip{height:6px;background:linear-gradient(90deg,#FF6B6B,#FF9F43,#FECA57,#1DD1A1,#54A0FF,#A29BFE,#FD79A8)}
+
+/* HEADER */
+.app-header{background:#fff;padding:1rem 1.2rem 0.8rem;text-align:center;box-shadow:var(--shadow);position:relative}
+.app-header .logo{font-size:2rem;margin-bottom:0.2rem}
+.app-header h1{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.6rem;background:linear-gradient(135deg,#FF6B6B,#FF9F43,#FECA57,#1DD1A1,#54A0FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.app-header .sub{font-size:0.78rem;color:var(--txt2);margin-top:0.2rem;font-weight:600}
+.streak-banner{display:inline-flex;align-items:center;gap:0.4rem;background:linear-gradient(135deg,#FF9F43,#FECA57);color:#fff;border-radius:20px;padding:4px 14px;font-size:0.8rem;font-weight:800;margin-top:0.5rem;box-shadow:0 3px 10px rgba(255,159,67,0.4)}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #F0F0F0;display:flex;z-index:1000;box-shadow:0 -4px 20px rgba(0,0,0,0.1)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.6rem 0.3rem;gap:3px;cursor:pointer;border:none;background:none;color:var(--txt2);font-family:'Baloo 2','Nunito',sans-serif;font-size:0.65rem;font-weight:700;transition:all 0.2s;position:relative}
+.nav-btn .nav-icon{font-size:1.5rem;transition:transform 0.2s}
+.nav-btn.active{color:var(--b)}
+.nav-btn.active .nav-icon{transform:scale(1.2)}
+.nav-btn.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:3px;background:var(--b);border-radius:0 0 4px 4px}
+
+/* PAGES */
+.page{display:none;padding:1rem;max-width:900px;margin:0 auto;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION HEADERS */
+.section-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+
+/* UNIT SELECTOR */
+.unit-selector{display:flex;gap:0.5rem;overflow-x:auto;padding:0.3rem 0 0.8rem;scrollbar-width:thin;margin-bottom:1rem}
+.unit-selector::-webkit-scrollbar{height:4px}
+.unit-selector::-webkit-scrollbar-track{background:#f0f0f0;border-radius:4px}
+.unit-selector::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px}
+.unit-pill{flex-shrink:0;border:2px solid transparent;border-radius:20px;padding:6px 14px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;background:#F8F8F8;color:var(--txt2);white-space:nowrap}
+.unit-pill.active{color:#fff;border-color:transparent;transform:scale(1.05)}
+
+/* VOCAB CARDS */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem}
+.vocab-card{background:transparent;border-radius:var(--radius);box-shadow:var(--shadow);cursor:pointer;transition:box-shadow 0.25s,border-color 0.25s;border:2.5px solid transparent;perspective:1000px}
+.vocab-card:hover{box-shadow:var(--shadow2)}
+/* front/back rotation handled by card-inner */
+.card-inner{position:relative;width:100%;height:200px;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0.2,0.2,1)}
+.vocab-card.flipped .card-inner{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:calc(var(--radius) - 2.5px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.8rem;gap:0.3rem;overflow:hidden}
+.card-back{transform:rotateY(180deg);background:#fff;padding:0.75rem 0.9rem;align-items:flex-start;justify-content:flex-start;flex-direction:column;gap:0.3rem;overflow:hidden}
+.card-emoji{font-size:2.5rem;line-height:1}
+.card-word{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#fff;text-align:center;line-height:1.2}
+.card-pos{font-size:0.65rem;background:rgba(255,255,255,0.25);color:#fff;padding:2px 8px;border-radius:10px;font-weight:700}
+.card-ipa{font-size:0.75rem;color:var(--txt2);font-style:italic;font-family:'Nunito',sans-serif}
+.card-meaning{font-size:0.95rem;font-weight:800;color:var(--txt);font-family:'Baloo 2',sans-serif}
+.card-example{font-size:0.72rem;color:var(--txt2);line-height:1.45;font-style:italic;border-left:3px solid;padding-left:0.5rem;margin-top:0.1rem;font-family:'Nunito',sans-serif}
+.audio-btn{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;background:rgba(255,255,255,0.3);color:#fff;transition:all 0.2s;z-index:2}
+.audio-btn:hover{background:rgba(255,255,255,0.5);transform:scale(1.1)}
+.flip-hint{font-size:0.6rem;color:rgba(255,255,255,0.7);position:absolute;bottom:8px;font-style:italic}
+
+/* GRAMMAR NOTEBOOK */
+.grammar-notebook{display:flex;flex-direction:column;gap:1rem}
+.grammar-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border-left:5px solid}
+.grammar-header{padding:1rem 1.2rem 0.8rem;cursor:pointer;display:flex;align-items:flex-start;gap:0.8rem;transition:background 0.2s}
+.grammar-header:hover{background:#FAFAFA}
+.grammar-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.grammar-title-group{flex:1}
+.grammar-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.2rem}
+.grammar-pattern{font-size:0.8rem;background:#F0F0F0;padding:4px 10px;border-radius:8px;font-family:'Baloo 2',monospace;color:var(--txt2);display:inline-block;margin-top:2px}
+.grammar-toggle{font-size:1.2rem;color:var(--txt2);transition:transform 0.3s;flex-shrink:0}
+.grammar-body{display:none;padding:0 1.2rem 1.2rem;border-top:1px dashed #E0E0E0;margin-top:0}
+.grammar-body.open{display:block;animation:fadeIn 0.2s ease}
+.grammar-note{background:#FFFDE7;border:1px solid #FFF176;border-radius:10px;padding:0.7rem 1rem;font-size:0.8rem;color:#5D4037;margin:0.7rem 0;display:flex;gap:0.5rem;align-items:flex-start;line-height:1.5;font-family:'Baloo 2','Nunito',sans-serif}
+.grammar-note::before{content:'💡';flex-shrink:0}
+.grammar-examples{display:flex;flex-direction:column;gap:0.5rem}
+.example-item{background:#F8F9FA;border-radius:10px;padding:0.6rem 0.9rem;font-size:0.82rem;border-left:3px solid}
+.example-item .q{font-weight:700;color:var(--txt);margin-bottom:3px}
+.example-item .a{color:#2ECC71;font-style:italic}
+
+/* GAMES */
+.game-selector{display:flex;gap:0.7rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.game-type-btn{flex:1;min-width:100px;background:#fff;border:2.5px solid #E0E0E0;border-radius:var(--radius-sm);padding:0.8rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.9rem;color:var(--txt2)}
+.game-type-btn:hover{border-color:var(--b);color:var(--b)}
+.game-type-btn.active{border-color:var(--b);background:#EBF5FF;color:var(--b)}
+.game-type-btn .gi{font-size:1.6rem;display:block;margin-bottom:0.3rem}
+.game-area{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;min-height:300px}
+.game-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.game-score{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--y),var(--o));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.game-progress{height:8px;background:#F0F0F0;border-radius:10px;overflow:hidden;margin-bottom:1rem}
+.game-progress-bar{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--g),var(--b));transition:width 0.4s ease}
+.q-label{font-size:0.75rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.4rem}
+.game-question{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.1rem;color:var(--txt);margin-bottom:1rem;line-height:1.4}
+
+/* DRAG DROP */
+.dd-pairs{display:flex;gap:1.5rem;flex-wrap:wrap}
+.dd-col{flex:1;min-width:140px}
+.dd-col-title{font-size:0.72rem;font-weight:800;text-transform:uppercase;color:var(--txt2);margin-bottom:0.6rem;letter-spacing:0.5px}
+.dd-item{background:#F8F8F8;border:2px dashed #E0E0E0;border-radius:12px;padding:0.6rem 0.8rem;margin-bottom:0.5rem;font-size:0.85rem;font-weight:700;cursor:grab;user-select:none;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem}
+.dd-item:active{cursor:grabbing;opacity:0.7}
+.dd-item.dragging{opacity:0.5;background:#E3F2FD;border-color:var(--b)}
+.dd-item.correct{background:#E8F5E9;border-color:#4CAF50;border-style:solid;color:#2E7D32}
+.dd-item.wrong{background:#FFEBEE;border-color:#F44336;border-style:solid;color:#C62828}
+.dd-slot{background:#FAFAFA;border:2px dashed #E0E0E0;border-radius:12px;padding:0.6rem 0.8rem;margin-bottom:0.5rem;font-size:0.85rem;color:#B0B0B0;min-height:44px;transition:all 0.2s;display:flex;align-items:center}
+.dd-slot.drag-over{background:#E3F2FD;border-color:var(--b);color:var(--b)}
+.dd-slot.filled{background:#fff;border-style:solid;border-color:#E0E0E0;color:var(--txt);font-weight:700}
+
+/* TYPING GAME */
+.typing-sentence{font-size:1rem;line-height:1.8;color:var(--txt);margin-bottom:1rem}
+.blank-input{border:none;border-bottom:3px solid var(--b);background:transparent;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:var(--b);width:120px;text-align:center;outline:none;padding:2px 4px;transition:all 0.2s}
+.blank-input:focus{border-color:var(--p)}
+.blank-input.correct{border-color:#4CAF50;color:#2E7D32}
+.blank-input.wrong{border-color:#F44336;color:#C62828}
+.typing-hint{font-size:0.8rem;color:var(--txt2);margin-top:0.5rem;display:flex;align-items:center;gap:0.3rem}
+.check-btn{background:linear-gradient(135deg,var(--b),var(--p));color:#fff;border:none;border-radius:12px;padding:0.6rem 1.5rem;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.2s;display:block;margin-top:0.8rem}
+.check-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(84,160,255,0.4)}
+.check-btn:active{transform:scale(0.97)}
+
+/* REORDER */
+.reorder-bank{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;min-height:50px;border:2px dashed #E0E0E0;border-radius:12px;padding:0.7rem}
+.reorder-answer{display:flex;flex-wrap:wrap;gap:0.5rem;min-height:50px;border:2px dashed var(--b);border-radius:12px;padding:0.7rem;background:#F8FDFF}
+.reorder-answer-label{font-size:0.7rem;font-weight:700;color:var(--b);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.4rem}
+.word-token{background:#fff;border:2px solid #E0E0E0;border-radius:10px;padding:5px 12px;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;user-select:none;display:inline-flex;align-items:center}
+.word-token:hover{border-color:var(--b);color:var(--b);background:#EBF5FF;transform:scale(1.03)}
+.word-token.in-answer{background:linear-gradient(135deg,var(--b),var(--p));color:#fff;border-color:transparent}
+.word-token.in-answer:hover{opacity:0.8}
+.word-token.correct{background:linear-gradient(135deg,#4CAF50,#2ECC71);border-color:transparent;color:#fff}
+.word-token.wrong{background:linear-gradient(135deg,#F44336,#FF7043);border-color:transparent;color:#fff}
+
+
+/* MULTIPLE CHOICE */
+.mc-options{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem}
+@media(max-width:500px){.mc-options{grid-template-columns:1fr}}
+.mc-opt{border:2.5px solid #E0E0E0;background:#fff;border-radius:14px;padding:0.7rem 1rem;
+  font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;text-align:left;
+  font-family:'Baloo 2',sans-serif;color:var(--txt);display:flex;align-items:center;gap:0.6rem;
+  line-height:1.35}
+.mc-opt:hover{border-color:var(--b);background:#EBF5FF;color:var(--b)}
+.mc-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:#1B5E20}
+.mc-opt.wrong{background:#FFEBEE;border-color:#F44336;color:#B71C1C}
+.mc-opt.reveal{background:#E8F5E9;border-color:#4CAF50;color:#1B5E20}
+.mc-opt-letter{width:26px;height:26px;border-radius:50%;background:currentColor;
+  display:flex;align-items:center;justify-content:center;font-size:0.72rem;
+  font-weight:800;flex-shrink:0;opacity:0.18}
+.mc-opt:hover .mc-opt-letter,.mc-opt.correct .mc-opt-letter,
+.mc-opt.wrong .mc-opt-letter,.mc-opt.reveal .mc-opt-letter{opacity:0.25}
+.explain-box{background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;
+  padding:0.6rem 0.9rem;font-size:0.8rem;color:#5D4037;margin-top:0.6rem;
+  display:none;line-height:1.5;font-family:'Baloo 2',sans-serif}
+.explain-box.show{display:flex;gap:0.4rem;align-items:flex-start}
+.explain-box::before{content:'💡';flex-shrink:0}
+
+/* FEEDBACK */
+.feedback-box{border-radius:14px;padding:1rem;margin-top:0.8rem;text-align:center;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.1rem;display:none;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.feedback-box.show{display:block}
+.feedback-box.correct{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.feedback-box.wrong{background:#FFEBEE;color:#C62828;border:2px solid #FFCDD2}
+@keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+.next-btn{background:linear-gradient(135deg,var(--o),var(--y));color:#fff;border:none;border-radius:12px;padding:0.6rem 1.5rem;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;margin-top:0.6rem;display:none}
+.next-btn.show{display:inline-block}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,159,67,0.4)}
+
+/* GAME RESULT */
+.game-result{text-align:center;padding:2rem;animation:popIn 0.4s ease}
+.result-emoji{font-size:4rem;margin-bottom:0.5rem}
+.result-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.8rem;background:linear-gradient(135deg,var(--o),var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-score{font-size:1rem;color:var(--txt2);margin:0.5rem 0 1rem}
+.play-again-btn{background:linear-gradient(135deg,var(--b),var(--p));color:#fff;border:none;border-radius:15px;padding:0.7rem 2rem;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.1rem;cursor:pointer;transition:all 0.2s}
+.play-again-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(84,160,255,0.4)}
+
+/* STREAK PAGE */
+.streak-page-header{text-align:center;padding:1rem 0 1.5rem}
+.big-streak{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:5rem;line-height:1;margin-bottom:0.3rem}
+.streak-num{font-family:'Baloo 2',cursive;font-weight:800;font-size:4rem;background:linear-gradient(135deg,var(--o),var(--y));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.streak-label{font-size:0.9rem;color:var(--txt2);font-weight:700}
+.streak-sub{font-size:0.8rem;color:var(--txt2);margin-top:0.3rem}
+.streak-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem}
+.streak-card-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.4rem}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:0.5rem}
+.cal-day-label{text-align:center;font-size:0.65rem;font-weight:700;color:var(--txt2);padding:2px}
+.cal-day{aspect-ratio:1;border-radius:6px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#ccc;transition:all 0.2s}
+.cal-day.studied{background:linear-gradient(135deg,var(--g),#00B894);color:#fff}
+.cal-day.today{box-shadow:0 0 0 2px var(--b);color:var(--b);background:#EBF5FF;font-weight:800}
+.cal-day.studied.today{box-shadow:0 0 0 2px var(--y);background:linear-gradient(135deg,var(--o),var(--y));color:#fff}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:0.7rem}
+.badge-item{background:#F8F8F8;border-radius:14px;padding:0.8rem 0.5rem;text-align:center;transition:all 0.2s;border:2px solid transparent}
+.badge-item.earned{background:linear-gradient(135deg,#FFF8E1,#FFF3CD);border-color:#FFD54F}
+.badge-item.earned:hover{transform:scale(1.05)}
+.badge-emoji{font-size:2rem;display:block;margin-bottom:0.3rem}
+.badge-name{font-size:0.68rem;font-weight:700;color:var(--txt2)}
+.badge-item.earned .badge-name{color:#E65100}
+.badge-lock{font-size:0.65rem;color:#CCC;margin-top:2px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1rem}
+.stat-card{background:linear-gradient(135deg,#F8F9FA,#F0F0F0);border-radius:14px;padding:0.8rem;text-align:center}
+.stat-card .sv{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.6rem;background:linear-gradient(135deg,var(--b),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-card .sl{font-size:0.65rem;color:var(--txt2);font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+.today-task{background:linear-gradient(135deg,#E8F5FF,#F0ECFF);border-radius:14px;padding:1rem;border:1.5px solid #BBDEFB;font-family:'Baloo 2',sans-serif}
+.task-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:0.95rem;color:var(--b);margin-bottom:0.6rem}
+.task-item{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0;font-size:0.82rem;color:var(--txt2);border-bottom:1px solid rgba(0,0,0,0.05)}
+.task-item:last-child{border-bottom:none}
+.task-check{width:20px;height:20px;border-radius:6px;background:#E0E0E0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0}
+.task-check.done{background:linear-gradient(135deg,var(--g),#00B894);color:#fff}
+</style>
+<style>
+/* Vietnamese font fix */
+.vn-text, .section-title, .nav-btn, .streak-banner, .app-header h1,
+.app-header .sub, .unit-pill, .grammar-title, .grammar-note,
+.example-item, .feedback-box, .result-title, .result-score,
+.task-item, .streak-label, .streak-sub, .stat-card .sl,
+.badge-name, .badge-lock, .today-task .task-title,
+.dd-col-title, .q-label, .typing-hint, .reorder-answer-label,
+.streak-card-title, .game-type-btn, .check-btn, .next-btn,
+.play-again-btn, .quiz-next-btn, .cal-day-label,
+.game-header, .game-score, h1, h2, h3, button, div, span, p {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif !important;
+}
+/* Keep Fredoka only for purely decorative ASCII/number elements */
+.streak-num, .big-streak, .stat-card .sv {
+  font-family: 'Baloo 2', 'Fredoka One', sans-serif !important;
+}
+/* Card word (English words only - safe with Fredoka) */
+.card-word {
+  font-family: 'Fredoka One', 'Baloo 2', sans-serif !important;
+}
+/* Section titles with Vietnamese need Baloo 2 */
+.section-title {
+  font-family: 'Baloo 2', sans-serif !important;
+  font-weight: 800 !important;
+}
+</style>
+</head>
+<body>
+<div class="rainbow-strip"></div>
+<header class="app-header">
+  <div class="logo">📚✨</div>
+  <h1>Smart English Handbook</h1>
+  <div class="sub">Tiếng Anh Lớp 5 · Global Success · Tập 1 &amp; 2</div>
+  <div class="streak-banner" id="headerStreak">🔥 0 ngày liên tiếp</div>
+</header>
+
+<!-- VOCAB PAGE -->
+<div id="page-vocab" class="page active">
+  <div class="section-title" style="color:var(--b)">📖 Từ Vựng</div>
+  <div class="unit-selector" id="vocabUnitSelector"></div>
+  <div id="vocabContent"></div>
+</div>
+
+<!-- GRAMMAR PAGE -->
+<div id="page-grammar" class="page">
+  <div class="section-title" style="color:var(--g)">📝 Ngữ Pháp</div>
+  <div class="unit-selector" id="grammarUnitSelector"></div>
+  <div class="grammar-notebook" id="grammarContent"></div>
+</div>
+
+<!-- GAMES PAGE -->
+<div id="page-games" class="page">
+  <div class="section-title" style="color:var(--r)">🎮 Luyện Tập</div>
+  <div class="unit-selector" id="gameUnitSelector"></div>
+  <div class="game-selector">
+    <button class="game-type-btn active" onclick="selectGame('drag')" id="gbtn-drag"><span class="gi">🧩</span>Kéo & Thả</button>
+    <button class="game-type-btn" onclick="selectGame('mc')" id="gbtn-mc"><span class="gi">🔘</span>Trắc Nghiệm</button>
+    <button class="game-type-btn" onclick="selectGame('typing')" id="gbtn-typing"><span class="gi">⌨️</span>Điền Từ</button>
+    <button class="game-type-btn" onclick="selectGame('reorder')" id="gbtn-reorder"><span class="gi">🔀</span>Sắp Xếp</button>
+  </div>
+  <div class="game-area" id="gameArea"></div>
+</div>
+
+<!-- STREAK PAGE -->
+<div id="page-streak" class="page">
+  <div class="section-title" style="color:var(--o)">🔥 Chuỗi Học</div>
+  <div class="streak-page-header">
+    <div class="big-streak">🔥</div>
+    <span class="streak-num" id="streakBigNum">0</span>
+    <div class="streak-label">Ngày liên tiếp</div>
+    <div class="streak-sub" id="streakSubText">Hãy bắt đầu học hôm nay!</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><span class="sv" id="statTotal">0</span><span class="sl">Ngày đã học</span></div>
+    <div class="stat-card"><span class="sv" id="statBest">0</span><span class="sl">Chuỗi cao nhất</span></div>
+    <div class="stat-card"><span class="sv" id="statWords">0</span><span class="sl">Từ đã học</span></div>
+  </div>
+  <div class="streak-card">
+    <div class="streak-card-title">📅 Lịch Học Tháng Này</div>
+    <div class="calendar-grid" id="calDayLabels"></div>
+    <div class="calendar-grid" id="calGrid"></div>
+  </div>
+  <div class="streak-card">
+    <div class="streak-card-title">🏆 Huy Hiệu</div>
+    <div class="badges-grid" id="badgesGrid"></div>
+  </div>
+  <div class="streak-card">
+    <div class="today-task">
+      <div class="task-title">📋 Nhiệm vụ hôm nay</div>
+      <div id="todayTasks"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-vocab" onclick="showPage('vocab')">
+    <span class="nav-icon">📖</span>Từ Vựng
+  </button>
+  <button class="nav-btn" id="nav-grammar" onclick="showPage('grammar')">
+    <span class="nav-icon">📝</span>Ngữ Pháp
+  </button>
+  <button class="nav-btn" id="nav-games" onclick="showPage('games')">
+    <span class="nav-icon">🎮</span>Luyện Tập
+  </button>
+  <button class="nav-btn" id="nav-streak" onclick="showPage('streak')">
+    <span class="nav-icon">🔥</span>Chuỗi Học
+  </button>
+</nav>
+<script>
+// ==================== UNIT DATA ====================
+const UNITS = [
+  {id:1,title:"All about me!",icon:"👤",color:"#FF6B6B",
+   vocab:[
+    {word:"city",ipa:"/ˈsɪti/",pos:"noun",meaning:"thành phố",example:"I live in a big city.",icon:"🏙️"},
+    {word:"class",ipa:"/klɑːs/",pos:"noun",meaning:"lớp học",example:"I'm in class 5A.",icon:"🏫"},
+    {word:"countryside",ipa:"/ˈkʌntrisaɪd/",pos:"noun",meaning:"vùng nông thôn",example:"She lives in the countryside.",icon:"🌄"},
+    {word:"dolphin",ipa:"/ˈdɒlfɪn/",pos:"noun",meaning:"cá heo",example:"My favourite animal is a dolphin.",icon:"🐬"},
+    {word:"pink",ipa:"/pɪŋk/",pos:"adj",meaning:"màu hồng",example:"My favourite colour is pink.",icon:"🌸"},
+    {word:"sandwich",ipa:"/ˈsænwɪdʒ/",pos:"noun",meaning:"bánh sandwich",example:"My favourite food is a sandwich.",icon:"🥪"},
+    {word:"table tennis",ipa:"/ˈteɪbl ˈtenɪs/",pos:"noun",meaning:"bóng bàn",example:"I like playing table tennis.",icon:"🏓"}
+   ],
+   grammar:[
+    {title:"Giới thiệu bản thân",pattern:"Can you tell me about yourself?",answer:"I'm in [class]. I live in the [place].",note:"Dùng 'I'm in' cho lớp học. Dùng 'I live in the' cho nơi ở. Câu trả lời = 2 câu nối nhau.",examples:[{q:"Can you tell me about yourself?",a:"I'm in class 5B. I live in the city."},{q:"Can you tell me about her?",a:"She's in class 5A. She lives in the countryside."}]},
+    {title:"Hỏi & trả lời sở thích",pattern:"What's your favourite [thing]?",answer:"It's [answer].",note:"'favourite' = yêu thích nhất. Luôn trả lời bằng 'It's...' (không dùng 'My favourite is...' ở đây).",examples:[{q:"What's your favourite sport?",a:"It's table tennis."},{q:"What's your favourite food?",a:"It's sandwich."}]}
+   ]},
+  {id:2,title:"Our homes",icon:"🏠",color:"#FF9F43",
+   vocab:[
+    {word:"building",ipa:"/ˈbɪldɪŋ/",pos:"noun",meaning:"tòa nhà",example:"There is a tall building near my house.",icon:"🏢"},
+    {word:"flat",ipa:"/flæt/",pos:"noun",meaning:"căn hộ chung cư",example:"We live in a flat on the third floor.",icon:"🏬"},
+    {word:"house",ipa:"/haʊs/",pos:"noun",meaning:"ngôi nhà",example:"My house has a big garden.",icon:"🏡"},
+    {word:"tower",ipa:"/ˈtaʊər/",pos:"noun",meaning:"tòa tháp",example:"I can see a tower from my window.",icon:"🗼"},
+    {word:"address",ipa:"/ˈædres/",pos:"noun",meaning:"địa chỉ",example:"What's your address?",icon:"📍"},
+    {word:"fifteen",ipa:"/ˌfɪfˈtiːn/",pos:"number",meaning:"mười lăm",example:"I live at number fifteen.",icon:"15"},
+    {word:"sixteen",ipa:"/ˌsɪkˈstiːn/",pos:"number",meaning:"mười sáu",example:"She is sixteen years old.",icon:"16"}
+   ],
+   grammar:[
+    {title:"Hỏi nơi sống",pattern:"Do you live in this / that [place]?",answer:"Yes, I do. / No, I don't.",note:"'this' = gần người nói. 'that' = xa hơn. Câu trả lời Yes/No dùng 'do / don't' (không dùng 'am/is').",examples:[{q:"Do you live in this house?",a:"Yes, I do."},{q:"Do you live in that flat?",a:"No, I don't. I live in a house."}]},
+    {title:"Hỏi địa chỉ",pattern:"What's your address?",answer:"It's [number] [street name].",note:"'It's' = Đó là. Địa chỉ đọc theo số nhà trước, tên đường sau.",examples:[{q:"What's your address?",a:"It's 23 Tran Phu Street."},{q:"What's her address?",a:"It's 116 Le Loi Road."}]}
+   ]},
+  {id:3,title:"My foreign friends",icon:"🌍",color:"#FECA57",
+   vocab:[
+    {word:"American",ipa:"/əˈmerɪkən/",pos:"adj",meaning:"người Mỹ / thuộc Mỹ",example:"My friend is American.",icon:"🗽"},
+    {word:"Australian",ipa:"/ɒˈstreɪliən/",pos:"adj",meaning:"người Úc / thuộc Úc",example:"She is Australian.",icon:"🦘"},
+    {word:"Japanese",ipa:"/ˌdʒæpəˈniːz/",pos:"adj",meaning:"người Nhật / thuộc Nhật",example:"He is Japanese.",icon:"🍣"},
+    {word:"Malaysian",ipa:"/məˈleɪziən/",pos:"adj",meaning:"người Malaysia",example:"My pen pal is Malaysian.",icon:"☀"},
+    {word:"active",ipa:"/ˈæktɪv/",pos:"adj",meaning:"năng động",example:"She is very active.",icon:"💪"},
+    {word:"clever",ipa:"/ˈklevər/",pos:"adj",meaning:"thông minh",example:"He is a clever student.",icon:"🧠"},
+    {word:"friendly",ipa:"/ˈfrendli/",pos:"adj",meaning:"thân thiện",example:"My new friend is very friendly.",icon:"😊"},
+    {word:"helpful",ipa:"/ˈhelpfəl/",pos:"adj",meaning:"hay giúp đỡ",example:"She is always helpful.",icon:"🤝"}
+   ],
+   grammar:[
+    {title:"Hỏi quốc tịch",pattern:"What nationality is he / she?",answer:"He's / She's [Nationality].",note:"Quốc tịch LUÔN viết HOA chữ đầu: American, Australian, Japanese... Dùng 'He's/She's' (không dùng 'His/Her').",examples:[{q:"What nationality is she?",a:"She's Australian."},{q:"What nationality is he?",a:"He's Japanese."}]},
+    {title:"Hỏi tính cách",pattern:"What's he / she like?",answer:"He's / She's [adjective].",note:"'What's he like?' (tính cách) ≠ 'What does he like?' (sở thích). Cẩn thận không nhầm hai mẫu câu này!",examples:[{q:"What's she like?",a:"She's friendly and clever."},{q:"What's he like?",a:"He's active and helpful."}]}
+   ]},
+  {id:4,title:"Our free-time activities",icon:"🎮",color:"#48DBFB",
+   vocab:[
+    {word:"go for a walk",ipa:"/ɡəʊ fər ə wɔːk/",pos:"v. phrase",meaning:"đi dạo",example:"I like to go for a walk.",icon:"🚶"},
+    {word:"play the violin",ipa:"/pleɪ ðə ˌvaɪəˈlɪn/",pos:"v. phrase",meaning:"chơi đàn violin",example:"She plays the violin.",icon:"🎻"},
+    {word:"surf the Internet",ipa:"/sɜːf ðə ˈɪntənɛt/",pos:"v. phrase",meaning:"lướt mạng",example:"I surf the Internet after school.",icon:"💻"},
+    {word:"water the flowers",ipa:"/ˈwɔːtər ðə ˈflaʊərz/",pos:"v. phrase",meaning:"tưới hoa",example:"She waters the flowers every morning.",icon:"💦💐"},
+    {word:"always",ipa:"/ˈɔːlweɪz/",pos:"adv",meaning:"luôn luôn",example:"I always brush my teeth.",icon:"🌕"},
+    {word:"often",ipa:"/ˈɒfən/",pos:"adv",meaning:"thường xuyên",example:"He often plays games.",icon:"🌔"},
+    {word:"sometimes",ipa:"/ˈsʌmtaɪmz/",pos:"adv",meaning:"đôi khi",example:"She sometimes reads books.",icon:"🌒"},
+    {word:"usually",ipa:"/ˈjuːʒuəli/",pos:"adv",meaning:"thường thường",example:"I usually have breakfast at 7.",icon:"🌓"}
+   ],
+   grammar:[
+    {title:"Hỏi hoạt động lúc rảnh",pattern:"What do you like doing in your free time?",answer:"I like [V-ing].",note:"Sau 'like' dùng V-ing: like playing / reading / going / watching... KHÔNG dùng 'like to V' trong mẫu câu này.",examples:[{q:"What do you like doing?",a:"I like surfing the Internet."},{q:"What does she like doing?",a:"She likes playing the violin."}]},
+    {title:"Trạng từ tần suất",pattern:"S + [adverb] + V (thường)\nS + to be + [adverb]",answer:"always > usually > often > sometimes",note:"Trạng từ tần suất đứng TRƯỚC động từ thường, nhưng đứng SAU động từ 'to be'. Nhớ: always = 100%, usually ≈ 80%, often ≈ 60%, sometimes ≈ 30%.",examples:[{q:"Tần suất:",a:"I always go for a walk. / She is sometimes late."},{q:"Thứ tự:",a:"always > usually > often > sometimes"}]}
+   ]},
+  {id:5,title:"My future job",icon:"👨‍⚕️",color:"#1DD1A1",
+   vocab:[
+    {word:"firefighter",ipa:"/ˈfaɪərˌfaɪtər/",pos:"noun",meaning:"lính cứu hỏa",example:"A firefighter saves people.",icon:"🧯"},
+    {word:"gardener",ipa:"/ˈɡɑːdənər/",pos:"noun",meaning:"người làm vườn",example:"The gardener grows flowers.",icon:"🌱"},
+    {word:"reporter",ipa:"/rɪˈpɔːtər/",pos:"noun",meaning:"phóng viên",example:"The reporter writes news.",icon:"📰"},
+    {word:"writer",ipa:"/ˈraɪtər/",pos:"noun",meaning:"nhà văn",example:"She wants to be a writer.",icon:"✍️"},
+    {word:"grow flowers",ipa:"/ɡrəʊ ˈflaʊərz/",pos:"v. phrase",meaning:"trồng hoa",example:"I'd like to grow flowers.",icon:"🌷"},
+    {word:"report the news",ipa:"/rɪˈpɔːt ðə njuːz/",pos:"v. phrase",meaning:"đưa tin tức",example:"She reports the news on TV.",icon:"📺"},
+    {word:"teach children",ipa:"/tiːtʃ ˈtʃɪldrən/",pos:"v. phrase",meaning:"dạy trẻ em",example:"He'd like to teach children.",icon:"👩‍🏫"},
+    {word:"write stories",ipa:"/raɪt ˈstɔːriz/",pos:"v. phrase",meaning:"viết truyện",example:"I love to write stories.",icon:"📝"}
+   ],
+   grammar:[
+    {title:"Nói về nghề nghiệp ước mơ",pattern:"What would you like to be in the future?",answer:"I'd like to be a/an [job].",note:"'I'd like to' = 'I would like to' (dạng rút gọn). Lịch sự hơn 'I want to'. Dùng 'a' hoặc 'an' trước nghề nghiệp.",examples:[{q:"What would you like to be?",a:"I'd like to be a reporter."},{q:"What would she like to be?",a:"She'd like to be a firefighter."}]},
+    {title:"Hỏi lý do về nghề nghiệp",pattern:"Why would you like to be a [job]?",answer:"Because I'd like to [activity].",note:"'Because' bắt đầu câu giải thích lý do. Lưu ý: 'Because' không đứng đầu câu độc lập (phải đi sau mệnh đề chính).",examples:[{q:"Why would you like to be a writer?",a:"Because I'd like to write stories."},{q:"Why would you like to be a teacher?",a:"Because I'd like to teach children."}]}
+   ]},
+  {id:6,title:"Our school rooms",icon:"🏫",color:"#54A0FF",
+   vocab:[
+    {word:"first floor",ipa:"/fɜːst flɔːr/",pos:"n. phrase",meaning:"tầng một",example:"The library is on the first floor.",icon:"1️⃣"},
+    {word:"ground floor",ipa:"/ɡraʊnd flɔːr/",pos:"n. phrase",meaning:"tầng trệt",example:"The canteen is on the ground floor.",icon:"0️⃣"},
+    {word:"second floor",ipa:"/ˈsekənd flɔːr/",pos:"n. phrase",meaning:"tầng hai",example:"The computer room is on the second floor.",icon:"2️⃣"},
+    {word:"third floor",ipa:"/θɜːd flɔːr/",pos:"n. phrase",meaning:"tầng ba",example:"The art room is on the third floor.",icon:"3️⃣"},
+    {word:"go along",ipa:"/ɡəʊ əˈlɒŋ/",pos:"v. phrase",meaning:"đi dọc theo",example:"Go along this corridor.",icon:"➡️"},
+    {word:"go downstairs",ipa:"/ɡəʊ ˌdaʊnˈsteərz/",pos:"v. phrase",meaning:"xuống cầu thang",example:"Go downstairs to the ground floor.",icon:"⬇️"},
+    {word:"go past",ipa:"/ɡəʊ pɑːst/",pos:"v. phrase",meaning:"đi qua",example:"Go past the office.",icon:"⏩"},
+    {word:"go upstairs",ipa:"/ɡəʊ ˌʌpˈsteərz/",pos:"v. phrase",meaning:"lên cầu thang",example:"Go upstairs to the second floor.",icon:"⬆️"}
+   ],
+   grammar:[
+    {title:"Hỏi vị trí phòng học",pattern:"Where's the [room]?",answer:"It's on the [floor].",note:"Dùng giới từ 'on' với các tầng: on the ground floor / first floor / second floor / third floor.",examples:[{q:"Where's the library?",a:"It's on the first floor."},{q:"Where's the art room?",a:"It's on the third floor."}]},
+    {title:"Hỏi đường (lịch sự)",pattern:"Could you tell me the way to [place], please?",answer:"Go along... → Go past... → Turn left/right.",note:"'Could you' = lịch sự hơn 'Can you'. Chuỗi chỉ đường: go along → go past → turn left/right / go upstairs.",examples:[{q:"Could you tell me the way to the computer room?",a:"Go along the corridor and turn right."},{q:"Could you tell me the way to the library?",a:"Go upstairs to the first floor."}]}
+   ]},
+  {id:7,title:"Our favourite school activities",icon:"📚",color:"#5F27CD",
+   vocab:[
+    {word:"do projects",ipa:"/duː ˈprɒdʒekts/",pos:"v. phrase",meaning:"làm dự án",example:"We do projects in groups.",icon:"🗂️"},
+    {word:"play games",ipa:"/pleɪ ɡeɪmz/",pos:"v. phrase",meaning:"chơi trò chơi",example:"We often play games in PE.",icon:"🎲"},
+    {word:"read books",ipa:"/riːd bʊks/",pos:"v. phrase",meaning:"đọc sách",example:"I like to read books.",icon:"📚"},
+    {word:"solve maths problems",ipa:"/sɒlv mæθs ˈprɒbləmz/",pos:"v. phrase",meaning:"giải toán",example:"She loves to solve maths problems.",icon:"🔢"},
+    {word:"difficult",ipa:"/ˈdɪfɪkəlt/",pos:"adj",meaning:"khó",example:"This maths problem is difficult.",icon:"😓"},
+    {word:"easy",ipa:"/ˈiːzi/",pos:"adj",meaning:"dễ",example:"This exercise is easy.",icon:"😊"},
+    {word:"fun",ipa:"/fʌn/",pos:"adj",meaning:"vui",example:"Playing games is fun.",icon:"🤣"},
+    {word:"interesting",ipa:"/ˈɪntrəstɪŋ/",pos:"adj",meaning:"thú vị",example:"Science is interesting.",icon:"😍"}
+   ],
+   grammar:[
+    {title:"Hỏi hoạt động yêu thích ở trường",pattern:"What school activity does he/she like?",answer:"He/She likes [V-ing].",note:"Chủ ngữ he/she → thêm 's' vào like: likes. Sau 'likes' dùng V-ing. Câu hỏi cũng thêm 's': 'does he/she like?'",examples:[{q:"What activity does she like?",a:"She likes reading books."},{q:"What activity does he like?",a:"He likes doing projects."}]},
+    {title:"Hỏi lý do thích hoạt động",pattern:"Why does he/she like [activity]?",answer:"Because he/she thinks it's [adjective].",note:"Cấu trúc: Because + S + thinks it's + adj. 'thinks it's' = cho rằng hoạt động đó...",examples:[{q:"Why does she like reading?",a:"Because she thinks it's interesting."},{q:"Why does he like playing games?",a:"Because he thinks it's fun."}]}
+   ]},
+  {id:8,title:"In our classroom",icon:"✏️",color:"#A29BFE",
+   vocab:[
+    {word:"above",ipa:"/əˈbʌv/",pos:"prep",meaning:"ở phía trên",example:"The clock is above the board.",icon:"⬆️"},
+    {word:"beside",ipa:"/bɪˈsaɪd/",pos:"prep",meaning:"ở cạnh bên",example:"My bag is beside my desk.",icon:"↔️"},
+    {word:"in front of",ipa:"/ɪn frʌnt ɒv/",pos:"prep",meaning:"ở phía trước",example:"She stands in front of the class.",icon:"🚪"},
+    {word:"under",ipa:"/ˈʌndər/",pos:"prep",meaning:"ở phía dưới",example:"My shoes are under the chair.",icon:"👇"},
+    {word:"crayon",ipa:"/ˈkreɪɒn/",pos:"noun",meaning:"bút màu sáp",example:"She uses a crayon to colour.",icon:"🖍️"},
+    {word:"glue stick",ipa:"/ɡluː stɪk/",pos:"noun",meaning:"keo dán dạng thỏi",example:"I need a glue stick.",icon:"🧴"},
+    {word:"pencil sharpener",ipa:"/ˈpensəl ˈʃɑːpənər/",pos:"noun",meaning:"cái gọt bút chì",example:"Can I borrow your pencil sharpener?",icon:"✏️"},
+    {word:"set square",ipa:"/set skweər/",pos:"noun",meaning:"ê-ke",example:"Use a set square to draw angles.",icon:"📐"}
+   ],
+   grammar:[
+    {title:"Hỏi vị trí đồ vật (nhiều)",pattern:"Where are the [things]?",answer:"They're [preposition] the [place].",note:"Hỏi 1 vật: 'Where is it?' → 'It's...' | Hỏi nhiều vật: 'Where are they?' → 'They're...'",examples:[{q:"Where are the crayons?",a:"They're on the desk."},{q:"Where are the books?",a:"They're beside the window."}]},
+    {title:"Hỏi về sở hữu",pattern:"Whose [thing] is this?",answer:"It's [name]'s.",note:"'Whose' = của ai? Thêm 's vào sau tên để thể hiện sở hữu: Tom's, Linda's, my teacher's.",examples:[{q:"Whose crayon is this?",a:"It's Tom's."},{q:"Whose set square is this?",a:"It's Linda's."}]}
+   ]},
+  {id:9,title:"Our outdoor activities",icon:"⛺",color:"#FD79A8",
+   vocab:[
+    {word:"aquarium",ipa:"/əˈkweəriəm/",pos:"noun",meaning:"thủy cung",example:"We saw many fish at the aquarium.",icon:"🐠"},
+    {word:"campsite",ipa:"/ˈkæmpsaɪt/",pos:"noun",meaning:"khu cắm trại",example:"We stayed at a campsite.",icon:"🏕️"},
+    {word:"funfair",ipa:"/ˈfʌnfeər/",pos:"noun",meaning:"hội chợ vui",example:"We went to the funfair.",icon:"🎪"},
+    {word:"theatre",ipa:"/ˈθɪətər/",pos:"noun",meaning:"nhà hát",example:"We watched a play at the theatre.",icon:"🎭"},
+    {word:"dance around the campfire",ipa:"/dɑːns əˈraʊnd ðə ˈkæmpfaɪər/",pos:"v. phrase",meaning:"nhảy quanh lửa trại",example:"We danced around the campfire.",icon:"🔥"},
+    {word:"listen to music",ipa:"/ˈlɪsən tə ˈmjuːzɪk/",pos:"v. phrase",meaning:"nghe nhạc",example:"I listened to music at camp.",icon:"🎵"},
+    {word:"play chess",ipa:"/pleɪ tʃes/",pos:"v. phrase",meaning:"chơi cờ vua",example:"We played chess in the afternoon.",icon:"♟️"},
+    {word:"watch the fish",ipa:"/wɒtʃ ðə fɪʃ/",pos:"v. phrase",meaning:"ngắm cá",example:"She watched the fish at the aquarium.",icon:"🐟"}
+   ],
+   grammar:[
+    {title:"Hỏi về hoạt động hôm qua",pattern:"Were you at the [place] yesterday?",answer:"Yes, we were. / No, we weren't.",note:"'were' = quá khứ của 'are'. Dùng cho: we, you, they. 'wasn't' dùng cho I/he/she/it.",examples:[{q:"Were you at the funfair yesterday?",a:"Yes, we were."},{q:"Were they at the aquarium?",a:"No, they weren't."}]},
+    {title:"Hỏi đã làm gì (quá khứ)",pattern:"What did you do yesterday?",answer:"We [past verb].",note:"'Did + S + V?' = câu hỏi quá khứ đơn. Trả lời dùng động từ ở thì quá khứ: danced, listened, played, watched.",examples:[{q:"What did you do?",a:"We danced around the campfire."},{q:"What did she do?",a:"She watched the fish."}]}
+   ]},
+  {id:10,title:"Our school trip",icon:"🚌",color:"#FF6B6B",
+   vocab:[
+    {word:"Ba Na Hills",ipa:"/bɑː nɑː hɪlz/",pos:"proper n.",meaning:"Bà Nà Hills (Đà Nẵng)",example:"We visited Ba Na Hills last month.",icon:"🏔️"},
+    {word:"Bai Dinh Pagoda",ipa:"/baɪ dɪn pəˈɡəʊdə/",pos:"proper n.",meaning:"Chùa Bái Đính",example:"Bai Dinh Pagoda is very large.",icon:"🛕"},
+    {word:"Hoan Kiem Lake",ipa:"/hwɑːn kiːəm leɪk/",pos:"proper n.",meaning:"Hồ Hoàn Kiếm",example:"We walked around Hoan Kiem Lake.",icon:"🐢"},
+    {word:"Suoi Tien Theme Park",ipa:"/swɔɪ tiːən θiːm pɑːk/",pos:"proper n.",meaning:"Công viên Suối Tiên",example:"We played at Suoi Tien Theme Park.",icon:"🎢"},
+    {word:"plant trees",ipa:"/plɑːnt triːz/",pos:"v. phrase",meaning:"trồng cây",example:"We planted trees at the park.",icon:"🌱"},
+    {word:"visit old buildings",ipa:"/ˈvɪzɪt əʊld ˈbɪldɪŋz/",pos:"v. phrase",meaning:"thăm tòa nhà cổ",example:"We visited old buildings.",icon:"🏛️"},
+    {word:"walk around the lake",ipa:"/wɔːk əˈraʊnd ðə leɪk/",pos:"v. phrase",meaning:"đi bộ quanh hồ",example:"We walked around the lake.",icon:"🚶"}
+   ],
+   grammar:[
+    {title:"Hỏi đã đi đâu (chuyến đi)",pattern:"Did they go to [place]?",answer:"Yes, they did. / No, they didn't.",note:"'Did + S + V (nguyên thể)' = câu hỏi quá khứ đơn. didn't = did not. Trả lời KHÔNG nhắc lại động từ.",examples:[{q:"Did they go to Ba Na Hills?",a:"Yes, they did."},{q:"Did she go to the pagoda?",a:"No, she didn't."}]},
+    {title:"Hỏi đã làm gì ở đó",pattern:"What did they do there?",answer:"They [past verb].",note:"Động từ bất quy tắc quan trọng: go→went, see→saw, eat→ate, buy→bought. Quy tắc: thêm -ed: walk→walked, visit→visited.",examples:[{q:"What did they do there?",a:"They walked around the lake."},{q:"What did he do?",a:"He visited the old buildings."}]}
+   ]},
+  {id:11,title:"Family time",icon:"👨‍👩‍👧‍👦",color:"#FF9F43",
+   vocab:[
+    {word:"buy souvenirs",ipa:"/baɪ ˌsuːvəˈnɪərz/",pos:"v. phrase",meaning:"mua đồ lưu niệm",example:"We bought souvenirs for our friends.",icon:"🛍️"},
+    {word:"collect seashells",ipa:"/kəˈlekt ˈsiːʃelz/",pos:"v. phrase",meaning:"nhặt vỏ sò",example:"I collected seashells on the beach.",icon:"🐚"},
+    {word:"eat seafood",ipa:"/iːt ˈsiːfuːd/",pos:"v. phrase",meaning:"ăn hải sản",example:"We ate seafood at the restaurant.",icon:"🦞"},
+    {word:"see interesting places",ipa:"/siː ˈɪntrəstɪŋ ˈpleɪsɪz/",pos:"v. phrase",meaning:"thăm nơi thú vị",example:"We saw many interesting places.",icon:"📸"},
+    {word:"take a boat trip",ipa:"/teɪk ə bəʊt trɪp/",pos:"v. phrase",meaning:"đi du lịch bằng thuyền",example:"We took a boat trip around the bay.",icon:"⛵"},
+    {word:"walk on the beach",ipa:"/wɔːk ɒn ðə biːtʃ/",pos:"v. phrase",meaning:"đi bộ trên bãi biển",example:"We walked on the beach at sunset.",icon:"🏖️"}
+   ],
+   grammar:[
+    {title:"Hỏi về hoạt động đã làm",pattern:"Did you [verb]?",answer:"Yes, I did. / No, I didn't. I [verb].",note:"Câu trả lời 'No' có thể thêm thông tin bổ sung để hoàn chỉnh ý. Ví dụ: No, I didn't. I walked on the beach.",examples:[{q:"Did you swim?",a:"Yes, I did. I swam with my mother."},{q:"Did you collect seashells?",a:"No, I didn't. I walked on the beach."}]},
+    {title:"Hỏi gia đình đã làm gì",pattern:"What did your family do in [place]?",answer:"We [past verb].",note:"'your family' = họ, nhưng khi trả lời ta dùng 'We' để bao gồm bản thân. Nhiều hoạt động nối bằng 'and'.",examples:[{q:"What did your family do in Hoi An?",a:"We ate seafood and saw interesting places."},{q:"What did they do at the beach?",a:"They walked on the beach and collected seashells."}]}
+   ]},
+  {id:12,title:"Our Tet holiday",icon:"🏮",color:"#FECA57",
+   vocab:[
+    {word:"buy roses",ipa:"/baɪ ˈrəʊzɪz/",pos:"v. phrase",meaning:"mua hoa hồng",example:"We'll buy roses for Tet.",icon:"🌹"},
+    {word:"peach blossoms",ipa:"/piːtʃ ˈblɒsəmz/",pos:"noun",meaning:"hoa đào",example:"We bought a branch of peach blossoms.",icon:"🌸"},
+    {word:"decorate the house",ipa:"/ˈdekəreɪt ðə haʊs/",pos:"v. phrase",meaning:"trang trí nhà",example:"We'll decorate the house for Tet.",icon:"🏠"},
+    {word:"make banh chung",ipa:"/meɪk bɑːn tʃʌŋ/",pos:"v. phrase",meaning:"làm bánh chưng",example:"My grandmother makes banh chung.",icon:"🟩"},
+    {word:"make spring rolls",ipa:"/meɪk sprɪŋ rəʊlz/",pos:"v. phrase",meaning:"làm chả giò",example:"My mum will make spring rolls.",icon:"🥢"},
+    {word:"fireworks show",ipa:"/ˈfaɪərwɜːks ʃəʊ/",pos:"n. phrase",meaning:"màn bắn pháo hoa",example:"We'll watch the fireworks show.",icon:"🎆"},
+    {word:"flower festival",ipa:"/ˈflaʊər ˈfestɪvəl/",pos:"n. phrase",meaning:"hội hoa xuân",example:"We'll go to the flower festival.",icon:"🌼"},
+    {word:"New Year party",ipa:"/njuː jɪər ˈpɑːti/",pos:"n. phrase",meaning:"tiệc Năm Mới",example:"We'll have a New Year party.",icon:"🎊"}
+   ],
+   grammar:[
+    {title:"Hỏi dự định Tết (tương lai)",pattern:"Will you [verb] for Tet?",answer:"Yes, I will. / No, I won't. I'll [verb].",note:"'will' = sẽ (tương lai). Rút gọn: I will → I'll, he will → he'll. Phủ định: will not → won't.",examples:[{q:"Will you make banh chung?",a:"Yes, I will."},{q:"Will you go to the flower festival?",a:"No, I won't. I'll stay home."}]},
+    {title:"Hỏi sẽ đi đâu dịp Tết",pattern:"Where will you go at Tet?",answer:"I'll go to [place].",note:"'at Tet' = vào dịp Tết. Dùng 'at' chứ không phải 'on' hay 'in' với 'Tet'.",examples:[{q:"Where will you go at Tet?",a:"I'll go to my grandparents' house."},{q:"Where will she go?",a:"She'll go to the flower festival."}]}
+   ]},
+  {id:13,title:"Our special days",icon:"🎉",color:"#1DD1A1",
+   vocab:[
+    {word:"Mid-Autumn Festival",ipa:"/mɪd ˈɔːtəm ˈfestɪvəl/",pos:"proper n.",meaning:"Tết Trung Thu",example:"We celebrate the Mid-Autumn Festival.",icon:"🥮"},
+    {word:"Children's Day",ipa:"/ˈtʃɪldrənz deɪ/",pos:"proper n.",meaning:"Ngày Quốc tế Thiếu nhi",example:"We have a party on Children's Day.",icon:"👧"},
+    {word:"Sports Day",ipa:"/spɔːts deɪ/",pos:"n. phrase",meaning:"Ngày Thể thao",example:"Our school has Sports Day every year.",icon:"🏅"},
+    {word:"Teachers' Day",ipa:"/ˈtiːtʃərz deɪ/",pos:"n. phrase",meaning:"Ngày Nhà giáo (20/11)",example:"We give flowers on Teachers' Day.",icon:"💐"},
+    {word:"apple juice",ipa:"/ˈæpəl dʒuːs/",pos:"noun",meaning:"nước ép táo",example:"We'll have apple juice at the party.",icon:"🧃"},
+    {word:"burgers",ipa:"/ˈbɜːɡərz/",pos:"noun",meaning:"bánh hamburger",example:"We'll eat burgers on Children's Day.",icon:"🍔"},
+    {word:"milk tea",ipa:"/mɪlk tiː/",pos:"noun",meaning:"trà sữa",example:"My favourite drink is milk tea.",icon:"🥛"},
+    {word:"pizza",ipa:"/ˈpiːtsə/",pos:"noun",meaning:"bánh pizza",example:"We'll have pizza at the party.",icon:"🍕"}
+   ],
+   grammar:[
+    {title:"Hỏi sẽ làm gì vào ngày đặc biệt",pattern:"What will you do on [special day]?",answer:"We'll [verb].",note:"'on' + ngày: on Children's Day, on Sports Day, on Teachers' Day. 'We'll' = We will.",examples:[{q:"What will you do on Children's Day?",a:"We'll play games and eat burgers."},{q:"What will they do on Teachers' Day?",a:"They'll give flowers to their teacher."}]},
+    {title:"Hỏi thức ăn/đồ uống tại tiệc",pattern:"What food/drinks will you have at the party?",answer:"We'll have [food/drink].",note:"Dùng 'have' cho ăn/uống trong tiệc. Nối các món bằng 'and'.",examples:[{q:"What food will you have?",a:"We'll have pizza and burgers."},{q:"What drinks will you have?",a:"We'll have apple juice and milk tea."}]}
+   ]},
+  {id:14,title:"Staying healthy",icon:"🥗",color:"#54A0FF",
+   vocab:[
+    {word:"do morning exercise",ipa:"/duː ˈmɔːnɪŋ ˈeksəsaɪz/",pos:"v. phrase",meaning:"tập thể dục buổi sáng",example:"He does morning exercise every day.",icon:"🤸"},
+    {word:"do yoga",ipa:"/duː ˈjəʊɡə/",pos:"v. phrase",meaning:"tập yoga",example:"My mum does yoga twice a week.",icon:"🧘"},
+    {word:"drink fresh juice",ipa:"/drɪŋk freʃ dʒuːs/",pos:"v. phrase",meaning:"uống nước ép tươi",example:"She drinks fresh juice every morning.",icon:"🥤"},
+    {word:"eat healthy food",ipa:"/iːt ˈhelθi fuːd/",pos:"v. phrase",meaning:"ăn thức ăn lành mạnh",example:"He eats healthy food every day.",icon:"🥦"},
+    {word:"eat vegetables",ipa:"/iːt ˈvedʒtəbəlz/",pos:"v. phrase",meaning:"ăn rau củ",example:"She eats vegetables three times a week.",icon:"🥕"},
+    {word:"play sports",ipa:"/pleɪ spɔːts/",pos:"v. phrase",meaning:"chơi thể thao",example:"They play sports after school.",icon:"⚽"},
+    {word:"every day",ipa:"/ˈevri deɪ/",pos:"adv",meaning:"mỗi ngày",example:"I brush my teeth every day.",icon:"📅"},
+    {word:"once a week",ipa:"/wʌns ə wiːk/",pos:"adv",meaning:"một lần/tuần",example:"She does yoga once a week.",icon:"1️⃣"},
+    {word:"twice a week",ipa:"/twaɪs ə wiːk/",pos:"adv",meaning:"hai lần/tuần",example:"He plays football twice a week.",icon:"2️⃣"},
+    {word:"three times a week",ipa:"/θriː taɪmz ə wiːk/",pos:"adv",meaning:"ba lần/tuần",example:"I eat vegetables three times a week.",icon:"3️⃣"}
+   ],
+   grammar:[
+    {title:"Hỏi cách giữ sức khỏe",pattern:"How does he/she stay healthy?",answer:"He/She [V]s / [V]s ... and [V]s ...",note:"'stay healthy' = giữ sức khỏe. He/She → thêm 's' vào động từ: does, eats, drinks, plays...",examples:[{q:"How does she stay healthy?",a:"She does yoga and eats vegetables."},{q:"How does he stay healthy?",a:"He plays sports and drinks fresh juice."}]},
+    {title:"Hỏi tần suất hoạt động",pattern:"How often does he/she [verb]?",answer:"Every day / Once/Twice/Three times a week.",note:"'How often' = bao lâu một lần. Thứ tự tần suất: every day > 3 times > twice > once a week.",examples:[{q:"How often does she do yoga?",a:"Twice a week."},{q:"How often does he play sports?",a:"Three times a week."}]}
+   ]},
+  {id:15,title:"Our health",icon:"🏥",color:"#5F27CD",
+   vocab:[
+    {word:"headache",ipa:"/ˈhedeɪk/",pos:"noun",meaning:"đau đầu",example:"I have a headache today.",icon:"🤕"},
+    {word:"sore throat",ipa:"/sɔːr θrəʊt/",pos:"n. phrase",meaning:"đau họng",example:"She has a sore throat.",icon:"😷"},
+    {word:"stomach ache",ipa:"/ˈstʌmək eɪk/",pos:"n. phrase",meaning:"đau bụng",example:"He has a stomach ache.",icon:"🤮"},
+    {word:"toothache",ipa:"/ˈtuːθeɪk/",pos:"noun",meaning:"đau răng",example:"I have a toothache.",icon:"😬"},
+    {word:"drink warm water",ipa:"/drɪŋk wɔːm ˈwɔːtər/",pos:"v. phrase",meaning:"uống nước ấm",example:"You should drink warm water.",icon:"☕"},
+    {word:"go to the dentist",ipa:"/ɡəʊ tə ðə ˈdentɪst/",pos:"v. phrase",meaning:"đến gặp nha sĩ",example:"You should go to the dentist.",icon:"🦷"},
+    {word:"have a rest",ipa:"/hæv ə rest/",pos:"v. phrase",meaning:"nghỉ ngơi",example:"You should have a rest at home.",icon:"🛌"},
+    {word:"take some medicine",ipa:"/teɪk sʌm ˈmedɪsɪn/",pos:"v. phrase",meaning:"uống thuốc",example:"You should take some medicine.",icon:"💊"}
+   ],
+   grammar:[
+    {title:"Hỏi triệu chứng bệnh",pattern:"What's the matter?",answer:"I have a/an [illness].",note:"'the matter' = vấn đề / triệu chứng. Dùng 'I have a' trước bệnh thông thường. 'ache' = đau nhức.",examples:[{q:"What's the matter?",a:"I have a headache."},{q:"What's the matter with her?",a:"She has a sore throat."}]},
+    {title:"Đưa lời khuyên",pattern:"You should [action].",answer:"OK, I will. / Thank you.",note:"'should' = nên (lời khuyên nhẹ nhàng). 'shouldn't' = không nên. Sau 'should' dùng V nguyên thể.",examples:[{q:"Lời khuyên:",a:"You should take some medicine."},{q:"Lời khuyên:",a:"You should go to the dentist."}]}
+   ]},
+  {id:16,title:"Seasons and the weather",icon:"🌤️",color:"#FF9F43",
+   vocab:[
+    {word:"autumn",ipa:"/ˈɔːtəm/",pos:"noun",meaning:"mùa thu",example:"The leaves fall in autumn.",icon:"🍂"},
+    {word:"spring",ipa:"/sprɪŋ/",pos:"noun",meaning:"mùa xuân",example:"Flowers bloom in spring.",icon:"🌸"},
+    {word:"summer",ipa:"/ˈsʌmər/",pos:"noun",meaning:"mùa hè",example:"It is very hot in summer.",icon:"☀️"},
+    {word:"winter",ipa:"/ˈwɪntər/",pos:"noun",meaning:"mùa đông",example:"It is cold in winter.",icon:"❄️"},
+    {word:"cold",ipa:"/kəʊld/",pos:"adj",meaning:"lạnh",example:"It is cold in winter.",icon:"🥶"},
+    {word:"cool",ipa:"/kuːl/",pos:"adj",meaning:"mát mẻ",example:"The weather is cool in autumn.",icon:"😌"},
+    {word:"hot",ipa:"/hɒt/",pos:"adj",meaning:"nóng",example:"It is hot in summer.",icon:"🌡️"},
+    {word:"warm",ipa:"/wɔːm/",pos:"adj",meaning:"ấm áp",example:"Spring is warm and beautiful.",icon:"🌤️"},
+    {word:"blouse",ipa:"/blaʊz/",pos:"noun",meaning:"áo blouse",example:"She wears a blouse in spring.",icon:"👚"},
+    {word:"jeans",ipa:"/dʒiːnz/",pos:"noun",meaning:"quần jeans",example:"I wear jeans in autumn.",icon:"👖"},
+    {word:"jumper",ipa:"/ˈdʒʌmpər/",pos:"noun",meaning:"áo len / áo nỉ",example:"He wears a jumper in winter.",icon:"🧶"},
+    {word:"trousers",ipa:"/ˈtraʊzərz/",pos:"noun",meaning:"quần dài",example:"She wears trousers in winter.",icon:"🧍‍♂️"}
+   ],
+   grammar:[
+    {title:"Hỏi thời tiết theo mùa",pattern:"How's the weather in [city] in [season]?",answer:"It's [adjective].",note:"'How's the weather' = thời tiết như thế nào. 'It's hot/cold/warm/cool/cloudy/rainy/sunny'.",examples:[{q:"How's the weather in Ha Noi in winter?",a:"It's cold."},{q:"How's the weather in summer?",a:"It's hot and sunny."}]},
+    {title:"Hỏi mặc gì theo mùa",pattern:"What do you usually wear in [season]?",answer:"I wear a/an [clothing] / I wear [clothing].",note:"'usually' = thường thường. Quần áo số nhiều không dùng 'a': I wear jeans (không dùng 'a jeans').",examples:[{q:"What do you wear in winter?",a:"I wear a jumper and jeans."},{q:"What does she wear in summer?",a:"She wears a blouse and trousers."}]}
+   ]},
+  {id:17,title:"Stories for children",icon:"📖",color:"#FF6B6B",
+   vocab:[
+    {word:"ant",ipa:"/ænt/",pos:"noun",meaning:"con kiến",example:"The ant works very hard.",icon:"🐜"},
+    {word:"crow",ipa:"/krəʊ/",pos:"noun",meaning:"con quạ",example:"The crow is a clever bird.",icon:"🐦"},
+    {word:"dwarfs",ipa:"/dwɔːfs/",pos:"noun",meaning:"người lùn (truyện)",example:"Snow White lived with seven dwarfs.",icon:"🧙"},
+    {word:"fox",ipa:"/fɒks/",pos:"noun",meaning:"con cáo",example:"The fox is a clever animal.",icon:"🦊"},
+    {word:"grasshopper",ipa:"/ˈɡrɑːshɒpər/",pos:"noun",meaning:"con châu chấu",example:"The grasshopper sang all summer.",icon:"🦗"},
+    {word:"hare",ipa:"/heər/",pos:"noun",meaning:"con thỏ rừng",example:"The hare ran very fast.",icon:"🐰"},
+    {word:"tortoise",ipa:"/ˈtɔːtəs/",pos:"noun",meaning:"con rùa",example:"The tortoise won the race.",icon:"🐢"},
+    {word:"cook well",ipa:"/kʊk wel/",pos:"v. phrase",meaning:"nấu ăn giỏi",example:"The princess can cook well.",icon:"👩‍🍳"},
+    {word:"run fast",ipa:"/rʌn fɑːst/",pos:"v. phrase",meaning:"chạy nhanh",example:"The hare can run fast.",icon:"🏃"},
+    {word:"sing beautifully",ipa:"/sɪŋ ˈbjuːtɪfli/",pos:"v. phrase",meaning:"hát hay",example:"She sings beautifully.",icon:"🎤"},
+    {word:"work hard",ipa:"/wɜːk hɑːrd/",pos:"v. phrase",meaning:"làm việc chăm chỉ",example:"The ant works hard every day.",icon:"💪"}
+   ],
+   grammar:[
+    {title:"Hỏi về nhân vật chính",pattern:"Who are the main characters in the story?",answer:"They're [characters].",note:"'main characters' = nhân vật chính. 'They're' = They are (dùng cho nhiều nhân vật). 'He/She is' cho 1 nhân vật.",examples:[{q:"Who are the main characters?",a:"They're the tortoise and the hare."},{q:"Who's the main character in Snow White?",a:"She's Snow White."}]},
+    {title:"Hỏi cách nhân vật làm gì",pattern:"How did he/she [verb]?",answer:"He/She [past V] + adverb.",note:"Trạng từ cách thức thường đứng SAU động từ: ran fast, sang beautifully, worked hard, cooked well.",examples:[{q:"How did the tortoise move?",a:"It moved slowly."},{q:"How did the ant work?",a:"It worked hard."}]}
+   ]},
+  {id:18,title:"Means of transport",icon:"🚗",color:"#48DBFB",
+   vocab:[
+    {word:"Dragon Bridge",ipa:"/ˈdræɡən brɪdʒ/",pos:"proper n.",meaning:"Cầu Rồng (Đà Nẵng)",example:"Dragon Bridge is a famous landmark.",icon:"🌉"},
+    {word:"Ha Noi Opera House",ipa:"/hɑː nɔɪ ˈɒpərə haʊs/",pos:"proper n.",meaning:"Nhà hát Lớn Hà Nội",example:"Ha Noi Opera House is beautiful.",icon:"🎼"},
+    {word:"Ho Chi Minh City Museum",ipa:"/həʊ tʃiː mɪn ˈsɪti mjuˈziːəm/",pos:"proper n.",meaning:"Bảo tàng TP. HCM",example:"We visited Ho Chi Minh City Museum.",icon:"🏛️"},
+    {word:"Ngo Mon Square",ipa:"/ŋoʊ mɒn skweər/",pos:"proper n.",meaning:"Quảng trường Ngọ Môn",example:"Ngo Mon Square is in Hue.",icon:"🏯"},
+    {word:"by bicycle",ipa:"/baɪ ˈbaɪsɪkəl/",pos:"prep. phrase",meaning:"bằng xe đạp",example:"I go to school by bicycle.",icon:"🚲"},
+    {word:"by bus",ipa:"/baɪ bʌs/",pos:"prep. phrase",meaning:"bằng xe buýt",example:"She goes to work by bus.",icon:"🚌"},
+    {word:"by taxi",ipa:"/baɪ ˈtæksi/",pos:"prep. phrase",meaning:"bằng taxi",example:"We went to the airport by taxi.",icon:"🚕"},
+    {word:"on foot",ipa:"/ɒn fʊt/",pos:"prep. phrase",meaning:"đi bộ",example:"He goes to the market on foot.",icon:"🚶"}
+   ],
+   grammar:[
+    {title:"Hỏi muốn tham quan đâu",pattern:"Where do you want to visit?",answer:"I want to visit [place].",note:"'want to' + V (nguyên thể). 'visit' dùng cho địa điểm, tòa nhà, thành phố, điểm du lịch.",examples:[{q:"Where do you want to visit?",a:"I want to visit Dragon Bridge."},{q:"Where does she want to visit?",a:"She wants to visit Ha Noi Opera House."}]},
+    {title:"Hỏi phương tiện đi lại",pattern:"How can I get to [place]?",answer:"You can get there by [transport]. / on foot.",note:"'by' + phương tiện. Ngoại lệ ĐẶC BIỆT: 'on foot' (KHÔNG dùng 'by foot'). Ghi nhớ ngoại lệ này!",examples:[{q:"How can I get to the museum?",a:"You can get there by bus."},{q:"How can I get to the market?",a:"You can get there on foot."}]}
+   ]},
+  {id:19,title:"Places of interest",icon:"🏔️",color:"#A29BFE",
+   vocab:[
+    {word:"beautiful",ipa:"/ˈbjuːtɪfəl/",pos:"adj",meaning:"đẹp",example:"The beach is beautiful.",icon:"😍"},
+    {word:"exciting",ipa:"/ɪkˈsaɪtɪŋ/",pos:"adj",meaning:"thú vị, hồi hộp",example:"The funfair is exciting.",icon:"🎢"},
+    {word:"fantastic",ipa:"/fænˈtæstɪk/",pos:"adj",meaning:"tuyệt vời",example:"The view is fantastic.",icon:"🤩"},
+    {word:"peaceful",ipa:"/ˈpiːsfəl/",pos:"adj",meaning:"yên bình",example:"The countryside is peaceful.",icon:"🕊️"},
+    {word:"kilometre",ipa:"/ˈkɪləmiːtər/",pos:"noun",meaning:"ki-lô-mét",example:"It's about 40 kilometres from here.",icon:"🛣️"},
+    {word:"far",ipa:"/fɑːr/",pos:"adj",meaning:"xa",example:"Is it far from here?",icon:"🗺"},
+    {word:"near",ipa:"/nɪər/",pos:"adj",meaning:"gần",example:"The park is near my house.",icon:"👣"}
+   ],
+   grammar:[
+    {title:"Hỏi ý kiến về địa điểm",pattern:"What do you think of [place]?",answer:"I think it's [adjective]. / I think they're [adjective].",note:"'What do you think of' = Bạn nghĩ gì về... 'it's' cho 1 địa điểm, 'they're' cho nhiều nơi.",examples:[{q:"What do you think of Ba Na Hills?",a:"I think it's fantastic."},{q:"What do you think of the beaches here?",a:"I think they're beautiful and peaceful."}]},
+    {title:"Hỏi khoảng cách",pattern:"How far is it from [A] to [B]?",answer:"It's about [number] kilometres.",note:"'How far' = bao xa. 'about' = khoảng (không chính xác hoàn toàn). Luôn dùng 'about' khi ước lượng.",examples:[{q:"How far is it from Ha Noi to Hue?",a:"It's about 660 kilometres."},{q:"How far is it from your house to school?",a:"It's about 2 kilometres."}]}
+   ]},
+  {id:20,title:"Our summer holidays",icon:"🏖️",color:"#FD79A8",
+   vocab:[
+    {word:"Dam Sen Aquarium",ipa:"/dæm sɛn əˈkweəriəm/",pos:"proper n.",meaning:"Thủy cung Đầm Sen",example:"We're going to visit Dam Sen Aquarium.",icon:"🐠"},
+    {word:"Huong River",ipa:"/hwɒŋ ˈrɪvər/",pos:"proper n.",meaning:"Sông Hương (Huế)",example:"Huong River is in Hue.",icon:"🏞️"},
+    {word:"Phong Nha Cave",ipa:"/fɒŋ ɲa keɪv/",pos:"proper n.",meaning:"Hang Phong Nha",example:"Phong Nha Cave is amazing.",icon:"🕳️"},
+    {word:"Phu Quoc Island",ipa:"/fuː kwɒk ˈaɪlənd/",pos:"proper n.",meaning:"Đảo Phú Quốc",example:"Phu Quoc Island has beautiful beaches.",icon:"🏝️"},
+    {word:"go camping",ipa:"/ɡəʊ ˈkæmpɪŋ/",pos:"v. phrase",meaning:"đi cắm trại",example:"We're going to go camping.",icon:"⛺"},
+    {word:"join a music club",ipa:"/dʒɔɪn ə ˈmjuːzɪk klʌb/",pos:"v. phrase",meaning:"tham gia CLB âm nhạc",example:"I'm going to join a music club.",icon:"🎵"},
+    {word:"practise swimming",ipa:"/ˈpræktɪs ˈswɪmɪŋ/",pos:"v. phrase",meaning:"luyện tập bơi lội",example:"She's going to practise swimming.",icon:"🏊"},
+    {word:"visit an eco-farm",ipa:"/ˈvɪzɪt ən ˈiːkəʊ fɑːm/",pos:"v. phrase",meaning:"thăm trang trại sinh thái",example:"We're going to visit an eco-farm.",icon:"🌾"}
+   ],
+   grammar:[
+    {title:"Kế hoạch hè – going to",pattern:"Where are you going to visit this summer?",answer:"I'm going to visit [place].",note:"'be going to' = dự định đã quyết định từ trước. am/is/are + going to + V nguyên thể.",examples:[{q:"Where are you going to visit?",a:"I'm going to visit Phu Quoc Island."},{q:"What is she going to do?",a:"She's going to practise swimming."}]},
+    {title:"Hỏi sẽ làm gì mùa hè",pattern:"What are you going to do this summer?",answer:"I'm going to [verb].",note:"Phân biệt: 'will' = quyết định ngay lúc nói | 'going to' = kế hoạch đã có từ trước. Với mùa hè → dùng 'going to'.",examples:[{q:"What are you going to do this summer?",a:"I'm going to go camping."},{q:"What are they going to do?",a:"They're going to join a music club."}]}
+   ]}
+];
+
+
+// ==================== NAVIGATION ====================
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if(name==='streak') renderStreak();
+  if(name==='games'){ buildGameUnitSelector(); initGame(currentGame); }
+  updateStreakToday();
+}
+
+// ==================== SPEECH ====================
+function speak(text){
+  if(!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=0.85; u.pitch=1.1;
+  speechSynthesis.speak(u);
+}
+
+// ==================== VOCAB ====================
+function buildUnitSelector(containerId, onSelect, currentUnit){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = UNITS.map((u,i)=>`
+    <button class="unit-pill ${i===currentUnit?'active':''}"
+      style="${i===currentUnit?'background:'+u.color+';color:#fff;border-color:'+u.color:''}"
+      onclick="${onSelect}(${i})">
+      ${u.icon} Unit ${u.id}
+    </button>`).join('');
+}
+
+function renderVocab(unitIdx){
+  currentVocabUnit = unitIdx;
+  buildUnitSelector('vocabUnitSelector','selectVocabUnit', unitIdx);
+  const u = UNITS[unitIdx];
+  document.getElementById('vocabContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.8rem">
+      <span style="font-size:1.5rem">${u.icon}</span>
+      <div>
+        <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.1rem;color:${u.color}">Unit ${u.id}: ${u.title}</div>
+        <div style="font-size:0.75rem;color:var(--txt2)">${u.vocab.length} từ · Nhấn vào thẻ để xem nghĩa</div>
+      </div>
+    </div>
+    <div class="vocab-grid">
+      ${u.vocab.map((w,i)=>buildVocabCard(w, u.color, i)).join('')}
+    </div>`;
+}
+
+function buildVocabCard(w, color, idx){
+  const posColors = {noun:'#FF6B6B',adj:'#FF9F43','v. phrase':'#1DD1A1','adv':'#54A0FF','prep':'#A29BFE','number':'#FD79A8','proper n.':'#FECA57','n. phrase':'#48DBFB','prep. phrase':'#48DBFB'};
+  const bc = posColors[w.pos] || color;
+  const safeWord = w.word.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const safeEx   = w.example.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  return `
+  <div class="vocab-card" id="vc-${idx}" onclick="flipCard(${idx})" style="border-color:${color}55">
+    <div class="card-inner">
+      <div class="card-front" style="background:linear-gradient(145deg,${color}EE,${color}AA)">
+        <button class="audio-btn" onclick="event.stopPropagation();speak('${safeWord}')">🔊</button>
+        <div class="card-emoji">${w.icon}</div>
+        <div class="card-word">${w.word}</div>
+        <span class="card-pos">${w.pos}</span>
+        <div class="flip-hint">👆 chạm để xem nghĩa</div>
+      </div>
+      <div class="card-back">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+          <span style="font-size:1.4rem">${w.icon}</span>
+          <button onclick="event.stopPropagation();speak('${safeWord}')"
+            style="border:none;background:${color}22;border-radius:8px;padding:3px 10px;font-size:0.72rem;cursor:pointer;color:${color};font-weight:700;font-family:'Baloo 2',sans-serif">🔊 Nghe</button>
+        </div>
+        <div style="font-family:'Nunito',sans-serif;font-size:0.68rem;color:var(--txt2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Phiên âm</div>
+        <div class="card-ipa">${w.ipa}</div>
+        <div style="width:100%;height:1.5px;background:${color}22;margin:3px 0"></div>
+        <div class="card-meaning" style="font-size:1rem">${w.meaning}</div>
+        <div class="card-example" style="border-color:${bc};font-size:0.73rem">${w.example}</div>
+        <button onclick="event.stopPropagation();speak('${safeEx}')"
+          style="align-self:flex-end;border:none;background:${bc}18;border-radius:8px;padding:3px 10px;font-size:0.68rem;cursor:pointer;color:${bc};font-weight:700;font-family:'Baloo 2',sans-serif;margin-top:auto">
+          🔊 Ví dụ
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function flipCard(idx){
+  const card = document.getElementById('vc-'+idx);
+  card.classList.toggle('flipped');
+  if(card.classList.contains('flipped')) card.style.boxShadow='0 8px 28px rgba(0,0,0,0.15)';
+  else card.style.boxShadow='';
+}
+
+function selectVocabUnit(i){ renderVocab(i); }
+let currentVocabUnit = 0;
+
+// ==================== GRAMMAR ====================
+let currentGrammarUnit = 0;
+
+function renderGrammar(unitIdx){
+  currentGrammarUnit = unitIdx;
+  buildUnitSelector('grammarUnitSelector','selectGrammarUnit', unitIdx);
+  const u = UNITS[unitIdx];
+  const colors = ['#FF6B6B','#1DD1A1','#54A0FF','#FF9F43','#A29BFE','#FD79A8','#FECA57','#48DBFB'];
+  document.getElementById('grammarContent').innerHTML = u.grammar.map((g,i)=>{
+    const c = colors[i % colors.length];
+    return `
+    <div class="grammar-card" style="border-left-color:${c}">
+      <div class="grammar-header" onclick="toggleGrammar(${unitIdx},${i})">
+        <div class="grammar-icon" style="background:${c}22;border-radius:10px;padding:6px">${['📌','💡','🔑','⭐'][i%4]}</div>
+        <div class="grammar-title-group">
+          <div class="grammar-title" style="color:${c}">${g.title}</div>
+          <div class="grammar-pattern" style="background:${c}15;color:${c}">${g.pattern}</div>
+        </div>
+        <div class="grammar-toggle" id="gt-${unitIdx}-${i}">▼</div>
+      </div>
+      <div class="grammar-body" id="gb-${unitIdx}-${i}">
+        <div style="margin-top:0.7rem">
+          <div style="font-size:0.72rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cấu trúc trả lời</div>
+          <div style="background:${c}10;border:1.5px solid ${c}44;border-radius:10px;padding:0.6rem 0.9rem;font-family:monospace;font-size:0.85rem;color:${c};font-weight:700">${g.answer}</div>
+        </div>
+        <div class="grammar-note">${g.note}</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Ví dụ</div>
+        <div class="grammar-examples">
+          ${g.examples.map(ex=>`
+          <div class="example-item" style="border-left-color:${c}">
+            <div class="q">❓ ${ex.q}</div>
+            <div class="a">✅ ${ex.a}</div>
+          </div>`).join('')}
+        </div>
+        <div style="margin-top:0.8rem">
+          <button onclick="speak('${g.pattern.replace(/'/g,"\'")}'); event.stopPropagation()" style="background:${c}15;border:1.5px solid ${c}44;border-radius:10px;padding:5px 14px;font-size:0.75rem;font-family:'Baloo 2',sans-serif;font-weight:700;color:${c};cursor:pointer">🔊 Nghe mẫu câu</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleGrammar(u,i){
+  const body = document.getElementById('gb-'+u+'-'+i);
+  const icon = document.getElementById('gt-'+u+'-'+i);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  icon.textContent = isOpen ? '▼' : '▲';
+  icon.style.color = isOpen ? 'var(--txt2)' : 'var(--b)';
+}
+
+function selectGrammarUnit(i){ renderGrammar(i); }
+
+// ==================== GAME DATA ====================
+// ==================== UNIT GAME DATA ====================
+const UNIT_GAMES = [
+  { uid:1, uname:"All about me!", uicon:"👤", ucolor:"#FF6B6B",
+    drag:[{word:"city",meaning:"thành phố",icon:"🏙️"},{word:"class",meaning:"lớp học",icon:"🏫"},{word:"countryside",meaning:"vùng nông thôn",icon:"🌄"},{word:"dolphin",meaning:"cá heo",icon:"🐬"},{word:"sandwich",meaning:"bánh sandwich",icon:"🥪"}],
+    typing:[{before:"I'm in",blank:"class",after:"5A.",hint:"🏫 Lớp học"},{before:"My favourite animal is a",blank:"dolphin",after:".",hint:"🐬 Sống dưới biển"},{before:"She lives in the",blank:"countryside",after:".",hint:"🌄 Vùng nông thôn"},{before:"What's your favourite sport? – It's table",blank:"tennis",after:".",hint:"🏓 Môn thể thao"}],
+    reorder:[{words:["your","What's","favourite","colour","?"],answer:"What's your favourite colour ?",hint:"Hỏi màu sắc yêu thích"},{words:["tell","Can","me","you","about","yourself","?"],answer:"Can you tell me about yourself ?",hint:"Nhờ giới thiệu bản thân"},{words:["in","I'm","class","5B","."],answer:"I'm in class 5B .",hint:"Giới thiệu lớp học"},{words:["the","live","I","in","city","."],answer:"I live in the city .",hint:"Giới thiệu nơi ở"}],
+    mc:[{q:"What's your favourite sport? → ___",opts:["It's table tennis.","He's table tennis.","They're tennis.","Its tennis."],ans:0,explain:"Trả lời sở thích dùng 'It's...'"},{q:"Điền vào chỗ trống: I'm ___ class 5A.",opts:["in","on","at","by"],ans:0,explain:"'I'm in class' – dùng giới từ 'in' cho lớp học"},{q:"Chọn câu đúng để giới thiệu nơi ở:",opts:["I live in the city.","I live on the city.","I live at the city.","I live by the city."],ans:0,explain:"'live in the + nơi chốn' là đúng"},{q:"'Countryside' nghĩa là gì?",opts:["vùng nông thôn","thành phố","lớp học","tòa nhà"],ans:0,explain:"Countryside = vùng nông thôn"}]
+  },
+  { uid:2, uname:"Our homes", uicon:"🏠", ucolor:"#FF9F43",
+    drag:[{word:"building",meaning:"tòa nhà",icon:"🏢"},{word:"flat",meaning:"căn hộ chung cư",icon:"🪟"},{word:"house",meaning:"ngôi nhà",icon:"🏡"},{word:"tower",meaning:"tòa tháp",icon:"🗼"},{word:"address",meaning:"địa chỉ",icon:"📍"}],
+    typing:[{before:"Do you live in this",blank:"house",after:"?",hint:"🏡 Ngôi nhà"},{before:"Yes, I",blank:"do",after:".",hint:"✅ Đồng ý – Yes, I ..."},{before:"What's your",blank:"address",after:"?",hint:"📍 Nơi ở cụ thể"},{before:"We live in a flat on the third",blank:"floor",after:".",hint:"🔢 Tầng / lầu"}],
+    reorder:[{words:["live","Do","in","you","this","house","?"],answer:"Do you live in this house ?",hint:"Hỏi nơi sống"},{words:["don't","No,","I","."],answer:"No, I don't .",hint:"Phủ định ngắn"},{words:["your","What's","address","?"],answer:"What's your address ?",hint:"Hỏi địa chỉ"},{words:["It's","Tran","23","Phu","Street","."],answer:"It's 23 Tran Phu Street .",hint:"Trả lời địa chỉ"}],
+    mc:[{q:"Do you live in this house? → ___",opts:["Yes, I do.","Yes, I am.","Yes, I did.","Yes, I will."],ans:0,explain:"Câu hỏi 'Do you...?' → trả lời 'Yes, I do.'"},{q:"'Flat' nghĩa là gì?",opts:["căn hộ chung cư","ngôi nhà","tòa tháp","địa chỉ"],ans:0,explain:"Flat = căn hộ chung cư"},{q:"Chọn giới từ đúng: The library is ___ the first floor.",opts:["on","in","at","by"],ans:0,explain:"'on the first floor' – dùng 'on' cho tầng lầu"},{q:"What's your address? → ___",opts:["It's 23 Le Loi Street.","Its 23 Le Loi Street.","They're 23 Le Loi Street.","He's 23 Le Loi Street."],ans:0,explain:"Trả lời địa chỉ dùng 'It's...'"}]
+  },
+  { uid:3, uname:"My foreign friends", uicon:"🌍", ucolor:"#FECA57",
+    drag:[{word:"American",meaning:"người Mỹ",icon:"🦅"},{word:"Australian",meaning:"người Úc",icon:"🪃"},{word:"Japanese",meaning:"người Nhật",icon:"🌸"},{word:"Malaysian",meaning:"người Malaysia",icon:"🇲🇾"},{word:"friendly",meaning:"thân thiện",icon:"😊"}],
+    typing:[{before:"What nationality is she? – She's",blank:"Australian",after:".",hint:"🪃 Đến từ Úc"},{before:"What's he like? – He's very",blank:"clever",after:".",hint:"🧠 Thông minh"},{before:"My new friend is very",blank:"friendly",after:".",hint:"😊 Thân thiện"},{before:"She is",blank:"active",after:"and loves sports.",hint:"💪 Năng động"}],
+    reorder:[{words:["nationality","What","is","she","?"],answer:"What nationality is she ?",hint:"Hỏi quốc tịch"},{words:["She's","Australian","."],answer:"She's Australian .",hint:"Trả lời quốc tịch"},{words:["he","What's","like","?"],answer:"What's he like ?",hint:"Hỏi tính cách"},{words:["He's","and","active","helpful","."],answer:"He's active and helpful .",hint:"Mô tả tính cách"}],
+    mc:[{q:"What nationality is he? → ___",opts:["He's Japanese.","His Japanese.","He Japanese.","Him Japanese."],ans:0,explain:"Quốc tịch dùng 'He's / She's + Nationality'"},{q:"'Clever' nghĩa là gì?",opts:["thông minh","thân thiện","năng động","hay giúp đỡ"],ans:0,explain:"Clever = thông minh"},{q:"'What's she like?' hỏi về điều gì?",opts:["Tính cách của cô ấy","Sở thích của cô ấy","Quốc tịch của cô ấy","Tuổi của cô ấy"],ans:0,explain:"'What's she like?' hỏi về tính cách, không phải sở thích"},{q:"Quốc tịch viết như thế nào?",opts:["Australian","australian","AUSTRALIAN","Australiann"],ans:0,explain:"Quốc tịch luôn viết HOA chữ đầu"}]
+  },
+  { uid:4, uname:"Our free-time activities", uicon:"🎮", ucolor:"#48DBFB",
+    drag:[{word:"go for a walk",meaning:"đi dạo",icon:"🚶"},{word:"surf the Internet",meaning:"lướt mạng",icon:"💻"},{word:"water the flowers",meaning:"tưới hoa",icon:"🪴"},{word:"always",meaning:"luôn luôn",icon:"✅"},{word:"sometimes",meaning:"đôi khi",icon:"🌗"}],
+    typing:[{before:"What do you like doing? – I like surfing the",blank:"Internet",after:".",hint:"💻 Lướt mạng"},{before:"She",blank:"always",after:"brushes her teeth before bed.",hint:"✅ Luôn luôn (100%)"},{before:"He",blank:"often",after:"plays games at the weekend.",hint:"📆 Thường xuyên"},{before:"I",blank:"usually",after:"have breakfast at 7 a.m.",hint:"📅 Thường thường"}],
+    reorder:[{words:["do","What","you","like","doing","?"],answer:"What do you like doing ?",hint:"Hỏi hoạt động lúc rảnh"},{words:["surfing","like","I","the","Internet","."],answer:"I like surfing the Internet .",hint:"Diễn đạt sở thích"},{words:["do","What","do","at","you","the","weekend","?"],answer:"What do you do at the weekend ?",hint:"Hỏi cuối tuần làm gì"},{words:["for","go","I","a","walk","Sunday","on","."],answer:"I go for a walk on Sunday .",hint:"Hoạt động cuối tuần"}],
+    mc:[{q:"What do you like doing? → I like ___ the Internet.",opts:["surfing","surf","surfs","to surf"],ans:0,explain:"Sau 'like' dùng V-ing: like surfing"},{q:"Thứ tự tần suất nào đúng?",opts:["always > usually > often > sometimes","always > often > usually > sometimes","usually > always > often > sometimes","sometimes > often > usually > always"],ans:0,explain:"always(100%) > usually(80%) > often(60%) > sometimes(30%)"},{q:"'Water the flowers' nghĩa là gì?",opts:["tưới hoa","hái hoa","trồng hoa","nhổ cỏ"],ans:0,explain:"Water the flowers = tưới hoa"},{q:"She ___ plays games on Sunday. (thường xuyên)",opts:["often","always","never","sometimes"],ans:0,explain:"Often = thường xuyên (khoảng 60%)"}]
+  },
+  { uid:5, uname:"My future job", uicon:"👨‍⚕️", ucolor:"#1DD1A1",
+    drag:[{word:"firefighter",meaning:"lính cứu hỏa",icon:"🚒"},{word:"gardener",meaning:"người làm vườn",icon:"🌱"},{word:"reporter",meaning:"phóng viên",icon:"📰"},{word:"writer",meaning:"nhà văn",icon:"✍️"},{word:"teach children",meaning:"dạy trẻ em",icon:"👩‍🏫"}],
+    typing:[{before:"I'd like to be a",blank:"reporter",after:"in the future.",hint:"📰 Người đưa tin"},{before:"Why would you like to be a writer? – Because I'd like to write",blank:"stories",after:".",hint:"📝 Viết..."},{before:"She'd like to",blank:"grow",after:"flowers in her garden.",hint:"🌷 Trồng..."},{before:"I'd like to",blank:"teach",after:"children.",hint:"👩‍🏫 Dạy..."}],
+    reorder:[{words:["like","I'd","to","be","a","writer","."],answer:"I'd like to be a writer .",hint:"Ước mơ nghề nghiệp"},{words:["would","What","you","like","to","be","?"],answer:"What would you like to be ?",hint:"Hỏi nghề nghiệp tương lai"},{words:["would","Why","like","you","to","be","a","teacher","?"],answer:"Why would you like to be a teacher ?",hint:"Hỏi lý do"},{words:["I'd","Because","like","to","children","teach","."],answer:"Because I'd like to teach children .",hint:"Trả lời lý do"}],
+    mc:[{q:"What would you like to be? → I ___ like to be a firefighter.",opts:["'d","am","do","will"],ans:0,explain:"I'd = I would – rút gọn của 'I would like to'"},{q:"'Firefighter' nghĩa là gì?",opts:["lính cứu hỏa","người làm vườn","phóng viên","nhà văn"],ans:0,explain:"Firefighter = lính cứu hỏa"},{q:"Why would you like to be a writer? → ___",opts:["Because I'd like to write stories.","So I'd like to write stories.","But I'd like to write stories.","And I'd like to write stories."],ans:0,explain:"Dùng 'Because' để giải thích lý do"},{q:"Nghề nào 'grow flowers' (trồng hoa)?",opts:["gardener","reporter","firefighter","writer"],ans:0,explain:"Gardener = người làm vườn, trồng hoa"}]
+  },
+  { uid:6, uname:"Our school rooms", uicon:"🏫", ucolor:"#54A0FF",
+    drag:[{word:"ground floor",meaning:"tầng trệt",icon:"🏗️"},{word:"first floor",meaning:"tầng một",icon:"1️⃣"},{word:"second floor",meaning:"tầng hai",icon:"2️⃣"},{word:"go along",meaning:"đi dọc theo",icon:"➡️"},{word:"go upstairs",meaning:"lên cầu thang",icon:"⬆️"}],
+    typing:[{before:"Where's the library? – It's on the first",blank:"floor",after:".",hint:"🔢 Tầng / lầu"},{before:"Go",blank:"along",after:"the corridor and turn right.",hint:"➡️ Đi dọc theo"},{before:"Could you tell me the way to the computer room,",blank:"please",after:"?",hint:"🙏 Câu hỏi lịch sự"},{before:"Go",blank:"upstairs",after:"to the second floor.",hint:"⬆️ Lên cầu thang"}],
+    reorder:[{words:["the","Where's","library","?"],answer:"Where's the library ?",hint:"Hỏi vị trí phòng"},{words:["on","It's","the","first","floor","."],answer:"It's on the first floor .",hint:"Trả lời vị trí"},{words:["tell","Could","me","you","the","way","to","the","art","room","?"],answer:"Could you tell me the way to the art room ?",hint:"Hỏi đường lịch sự"},{words:["along","Go","the","corridor","and","left","turn","."],answer:"Go along the corridor and turn left .",hint:"Chỉ đường"}],
+    mc:[{q:"Where's the computer room? → It's ___ the second floor.",opts:["on","in","at","by"],ans:0,explain:"'on the + floor' – dùng 'on' cho tầng lầu"},{q:"'Go downstairs' nghĩa là gì?",opts:["đi xuống cầu thang","đi lên cầu thang","đi dọc theo","đi qua"],ans:0,explain:"Downstairs = xuống cầu thang (≠ upstairs)"},{q:"Câu hỏi lịch sự hỏi đường dùng gì?",opts:["Could you tell me the way to...?","Can you tell me the way to...?","Cả hai đều đúng","Không câu nào đúng"],ans:2,explain:"Cả 'Could you' và 'Can you' đều đúng, nhưng 'Could you' lịch sự hơn"},{q:"'Ground floor' là tầng mấy?",opts:["tầng trệt (tầng 0)","tầng một","tầng hai","tầng ba"],ans:0,explain:"Ground floor = tầng trệt, không phải tầng 1"}]
+  },
+  { uid:7, uname:"Our favourite school activities", uicon:"📚", ucolor:"#5F27CD",
+    drag:[{word:"do projects",meaning:"làm dự án",icon:"🗂️"},{word:"read books",meaning:"đọc sách",icon:"📚"},{word:"solve maths problems",meaning:"giải toán",icon:"🔢"},{word:"difficult",meaning:"khó",icon:"😓"},{word:"interesting",meaning:"thú vị",icon:"🔬"}],
+    typing:[{before:"What activity does she like? – She likes reading",blank:"books",after:".",hint:"📚 Đọc..."},{before:"Why does he like it? – Because he thinks it's",blank:"interesting",after:".",hint:"🔬 Thú vị"},{before:"She likes doing",blank:"projects",after:"in groups.",hint:"🗂️ Dự án nhóm"},{before:"This maths problem is very",blank:"difficult",after:".",hint:"😓 Khó"}],
+    reorder:[{words:["activity","What","does","she","like","?"],answer:"What activity does she like ?",hint:"Hỏi hoạt động yêu thích"},{words:["She","books","reading","likes","."],answer:"She likes reading books .",hint:"Diễn đạt sở thích"},{words:["does","Why","like","he","it","?"],answer:"Why does he like it ?",hint:"Hỏi lý do"},{words:["he","Because","thinks","it's","fun","."],answer:"Because he thinks it's fun .",hint:"Giải thích lý do"}],
+    mc:[{q:"What activity does he like? → He ___ solving maths problems.",opts:["likes","like","is like","liking"],ans:0,explain:"He/She + likes (thêm 's') + V-ing"},{q:"'Fun' nghĩa là gì?",opts:["vui","khó","thú vị","dễ"],ans:0,explain:"Fun = vui vẻ, thích thú"},{q:"Why does she like reading? → ___",opts:["Because she thinks it's interesting.","So she thinks it's interesting.","But she thinks it's interesting.","Because she think it's interesting."],ans:0,explain:"Because + S + thinks it's + adj (không bỏ 's' sau thinks)"},{q:"'Do projects' nghĩa là gì?",opts:["làm dự án","chơi trò chơi","đọc sách","giải toán"],ans:0,explain:"Do projects = làm dự án"}]
+  },
+  { uid:8, uname:"In our classroom", uicon:"✏️", ucolor:"#A29BFE",
+    drag:[{word:"above",meaning:"ở phía trên",icon:"⬆️"},{word:"beside",meaning:"ở cạnh bên",icon:"↔️"},{word:"in front of",meaning:"ở phía trước",icon:"🚪"},{word:"under",meaning:"ở phía dưới",icon:"👇"},{word:"crayon",meaning:"bút màu sáp",icon:"🖍️"}],
+    typing:[{before:"The ruler is",blank:"beside",after:"the pencil case.",hint:"↔️ Ở cạnh bên"},{before:"My bag is",blank:"under",after:"the chair.",hint:"👇 Ở phía dưới"},{before:"Whose crayon is this? – It's",blank:"Tom's",after:".",hint:"✏️ Sở hữu cách: tên + 's"},{before:"Can I borrow your pencil",blank:"sharpener",after:"?",hint:"✏️ Cái gọt bút chì"}],
+    reorder:[{words:["are","Where","the","crayons","?"],answer:"Where are the crayons ?",hint:"Hỏi vị trí đồ vật"},{words:["They're","the","on","desk","."],answer:"They're on the desk .",hint:"Trả lời vị trí"},{words:["is","Whose","this","crayon","?"],answer:"Whose crayon is this ?",hint:"Hỏi về sở hữu"},{words:["Tom's","It's","."],answer:"It's Tom's .",hint:"Trả lời sở hữu"}],
+    mc:[{q:"The clock is ___ the board. (phía trên)",opts:["above","under","beside","in front of"],ans:0,explain:"Above = ở phía trên"},{q:"'Whose pencil is this?' hỏi về điều gì?",opts:["Chủ nhân của chiếc bút","Vị trí của chiếc bút","Màu sắc của chiếc bút","Loại bút"],ans:0,explain:"Whose = của ai? – hỏi về chủ sở hữu"},{q:"'Set square' là đồ dùng học tập nào?",opts:["ê-ke","thước kẻ","bút màu","keo dán"],ans:0,explain:"Set square = ê-ke (dụng cụ vẽ góc vuông)"},{q:"Whose book is this? → ___",opts:["It's Linda's.","Its Linda's.","They're Linda's.","There's Linda's."],ans:0,explain:"Trả lời 'Whose' dùng: It's + tên + 's"}]
+  },
+  { uid:9, uname:"Our outdoor activities", uicon:"⛺", ucolor:"#FD79A8",
+    drag:[{word:"aquarium",meaning:"thủy cung",icon:"🐠"},{word:"campsite",meaning:"khu cắm trại",icon:"🏕️"},{word:"funfair",meaning:"hội chợ vui",icon:"🎪"},{word:"theatre",meaning:"nhà hát",icon:"🎭"},{word:"play chess",meaning:"chơi cờ vua",icon:"♟️"}],
+    typing:[{before:"Were you at the funfair",blank:"yesterday",after:"?",hint:"📅 Hôm qua"},{before:"Yes, we",blank:"were",after:".",hint:"✅ Quá khứ của 'are'"},{before:"What did you do? – We danced around the",blank:"campfire",after:".",hint:"🔥 Lửa trại"},{before:"She watched the",blank:"fish",after:"at the aquarium.",hint:"🐟 Ngắm..."}],
+    reorder:[{words:["you","Were","at","the","yesterday","funfair","?"],answer:"Were you at the funfair yesterday ?",hint:"Hỏi hoạt động hôm qua"},{words:["were","Yes,","we","."],answer:"Yes, we were .",hint:"Trả lời khẳng định quá khứ"},{words:["did","What","do","you","yesterday","?"],answer:"What did you do yesterday ?",hint:"Hỏi đã làm gì hôm qua"},{words:["the","We","around","danced","campfire","."],answer:"We danced around the campfire .",hint:"Kể hoạt động quá khứ"}],
+    mc:[{q:"___ you at the aquarium yesterday?",opts:["Were","Was","Did","Are"],ans:0,explain:"We/You/They → dùng 'Were' (quá khứ của 'are')"},{q:"'Funfair' nghĩa là gì?",opts:["hội chợ vui","thủy cung","nhà hát","khu cắm trại"],ans:0,explain:"Funfair = hội chợ vui, có trò chơi và bán hàng"},{q:"What did they do? → They ___ around the campfire.",opts:["danced","dance","dancing","dances"],ans:0,explain:"Câu trả lời quá khứ đơn: dùng động từ quá khứ (danced)"},{q:"Were they at the theatre? → No, they ___.",opts:["weren't","wasn't","didn't","don't"],ans:0,explain:"We/They → weren't = were not (phủ định quá khứ)"}]
+  },
+  { uid:10, uname:"Our school trip", uicon:"🚌", ucolor:"#FF6B6B",
+    drag:[{word:"Ba Na Hills",meaning:"Bà Nà Hills",icon:"🏔️"},{word:"Hoan Kiem Lake",meaning:"Hồ Hoàn Kiếm",icon:"🐢"},{word:"plant trees",meaning:"trồng cây",icon:"🌱"},{word:"visit old buildings",meaning:"thăm tòa nhà cổ",icon:"🏛️"},{word:"walk around the lake",meaning:"đi bộ quanh hồ",icon:"🚶"}],
+    typing:[{before:"Did they go to Ba Na Hills? – Yes, they",blank:"did",after:".",hint:"✅ Xác nhận quá khứ"},{before:"What did they do? – They walked around the",blank:"lake",after:".",hint:"🏞️ Quanh hồ"},{before:"We visited the old",blank:"buildings",after:".",hint:"🏛️ Tòa nhà..."},{before:"They planted",blank:"trees",after:"at the park.",hint:"🌱 Trồng..."}],
+    reorder:[{words:["they","Did","to","go","Ba","Na","Hills","?"],answer:"Did they go to Ba Na Hills ?",hint:"Hỏi đã đi đâu"},{words:["did","Yes,","they","."],answer:"Yes, they did .",hint:"Xác nhận quá khứ"},{words:["did","What","do","they","there","?"],answer:"What did they do there ?",hint:"Hỏi đã làm gì"},{words:["the","They","around","walked","lake","."],answer:"They walked around the lake .",hint:"Kể hoạt động chuyến đi"}],
+    mc:[{q:"Did they visit Hoan Kiem Lake? → No, they ___.",opts:["didn't","weren't","don't","aren't"],ans:0,explain:"'Did' question → trả lời 'didn't' (did not)"},{q:"'Plant trees' nghĩa là gì?",opts:["trồng cây","tưới cây","chặt cây","leo cây"],ans:0,explain:"Plant = trồng; trees = cây"},{q:"What did she do there? → She ___ the old buildings.",opts:["visited","visit","visits","visiting"],ans:0,explain:"Quá khứ đơn: visit → visited (thêm -ed)"},{q:"'Bai Dinh Pagoda' là địa danh ở đâu?",opts:["Ninh Bình","Đà Nẵng","Hà Nội","TP. Hồ Chí Minh"],ans:0,explain:"Chùa Bái Đính nằm ở Ninh Bình"}]
+  },
+  { uid:11, uname:"Family time", uicon:"👨‍👩‍👧‍👦", ucolor:"#FF9F43",
+    drag:[{word:"buy souvenirs",meaning:"mua đồ lưu niệm",icon:"🛍️"},{word:"collect seashells",meaning:"nhặt vỏ sò",icon:"🐚"},{word:"eat seafood",meaning:"ăn hải sản",icon:"🦞"},{word:"take a boat trip",meaning:"đi thuyền",icon:"⛵"},{word:"walk on the beach",meaning:"đi bộ bãi biển",icon:"🏖️"}],
+    typing:[{before:"Did you swim? – Yes, I",blank:"did",after:". I swam with my mother.",hint:"✅ Xác nhận"},{before:"We",blank:"collected",after:"seashells on the beach.",hint:"🐚 Quá khứ của collect"},{before:"They took a boat",blank:"trip",after:"around the bay.",hint:"⛵ Chuyến đi..."},{before:"We bought",blank:"souvenirs",after:"for our friends.",hint:"🛍️ Đồ lưu niệm"}],
+    reorder:[{words:["you","Did","swim","?"],answer:"Did you swim ?",hint:"Hỏi đã làm gì"},{words:["did","Yes,","I",".","swam","I","with","my","mother","."],answer:"Yes, I did . I swam with my mother .",hint:"Xác nhận + bổ sung"},{words:["your","What","family","did","do","in","Hoi","An","?"],answer:"What did your family do in Hoi An ?",hint:"Hỏi gia đình làm gì"},{words:["seafood","We","ate","and","interesting","saw","places","."],answer:"We ate seafood and saw interesting places .",hint:"Kể nhiều hoạt động"}],
+    mc:[{q:"Did you collect seashells? → No, I ___. I walked on the beach.",opts:["didn't","don't","wasn't","won't"],ans:0,explain:"'Did' question → phủ định dùng 'didn't'"},{q:"'Take a boat trip' nghĩa là gì?",opts:["đi du lịch bằng thuyền","bơi thuyền thi","mua thuyền","sửa thuyền"],ans:0,explain:"Take a boat trip = đi chuyến du lịch bằng thuyền"},{q:"We ___ souvenirs at the market. (quá khứ của buy)",opts:["bought","buyed","buys","buying"],ans:0,explain:"buy → bought (động từ bất quy tắc)"},{q:"'Collect seashells' nghĩa là gì?",opts:["nhặt vỏ sò","ăn hải sản","tắm biển","câu cá"],ans:0,explain:"Collect = thu thập/nhặt; seashells = vỏ sò"}]
+  },
+  { uid:12, uname:"Our Tet holiday", uicon:"🏮", ucolor:"#FECA57",
+    drag:[{word:"buy roses",meaning:"mua hoa hồng",icon:"🌹"},{word:"decorate the house",meaning:"trang trí nhà",icon:"🏠"},{word:"make banh chung",meaning:"làm bánh chưng",icon:"🟩"},{word:"fireworks show",meaning:"bắn pháo hoa",icon:"🎆"},{word:"flower festival",meaning:"hội hoa xuân",icon:"🌼"}],
+    typing:[{before:"Will you make banh chung? – Yes, I",blank:"will",after:".",hint:"✅ Tương lai khẳng định"},{before:"No, I",blank:"won't",after:". I'll stay home.",hint:"❌ won't = will not"},{before:"Where will you go at Tet? – I'll",blank:"go",after:"to my grandparents' house.",hint:"🏠 Đến nhà ông bà"},{before:"We'll",blank:"decorate",after:"the house with flowers.",hint:"🌸 Trang trí..."}],
+    reorder:[{words:["you","Will","for","Tet","banh","make","chung","?"],answer:"Will you make banh chung for Tet ?",hint:"Hỏi dự định Tết"},{words:["will","Yes,","I","."],answer:"Yes, I will .",hint:"Xác nhận tương lai"},{words:["will","Where","go","you","Tet","at","?"],answer:"Where will you go at Tet ?",hint:"Hỏi sẽ đi đâu dịp Tết"},{words:["go","I'll","to","the","festival","flower","."],answer:"I'll go to the flower festival .",hint:"Trả lời sẽ đến đâu"}],
+    mc:[{q:"Will you go to the flower festival? → No, I ___.",opts:["won't","will not go","don't","didn't"],ans:0,explain:"won't = will not – phủ định tương lai rút gọn"},{q:"'Decorate the house' nghĩa là gì?",opts:["trang trí nhà","dọn dẹp nhà","xây nhà","sơn nhà"],ans:0,explain:"Decorate = trang trí"},{q:"'I'll' là rút gọn của gì?",opts:["I will","I shall","I would","I am"],ans:0,explain:"I'll = I will (rút gọn thường dùng trong văn nói)"},{q:"Dùng giới từ nào: ___ Tet?",opts:["at","in","on","by"],ans:0,explain:"'at Tet' – dùng 'at' cho các dịp lễ Tết"}]
+  },
+  { uid:13, uname:"Our special days", uicon:"🎉", ucolor:"#1DD1A1",
+    drag:[{word:"Mid-Autumn Festival",meaning:"Tết Trung Thu",icon:"🥮"},{word:"Children's Day",meaning:"Ngày Thiếu nhi",icon:"👧"},{word:"Teachers' Day",meaning:"Ngày Nhà giáo",icon:"💐"},{word:"milk tea",meaning:"trà sữa",icon:"🧋"},{word:"pizza",meaning:"bánh pizza",icon:"🍕"}],
+    typing:[{before:"What will you do on Children's Day? – We'll play",blank:"games",after:".",hint:"🎲 Chơi..."},{before:"What drinks will you have? – We'll have apple juice and milk",blank:"tea",after:".",hint:"🧋 Trà..."},{before:"What food will you have? – We'll have",blank:"pizza",after:"and burgers.",hint:"🍕 Thức ăn"},{before:"We'll give flowers to our teacher on Teachers'",blank:"Day",after:".",hint:"💐 Ngày..."}],
+    reorder:[{words:["will","What","do","you","on","Day","Children's","?"],answer:"What will you do on Children's Day ?",hint:"Hỏi ngày Thiếu nhi"},{words:["games","We'll","play","and","eat","burgers","."],answer:"We'll play games and eat burgers .",hint:"Kế hoạch ngày lễ"},{words:["will","What","have","drinks","you","at","the","party","?"],answer:"What drinks will you have at the party ?",hint:"Hỏi đồ uống"},{words:["have","We'll","and","apple","juice","milk","tea","."],answer:"We'll have apple juice and milk tea .",hint:"Trả lời đồ uống"}],
+    mc:[{q:"What will they do on Teachers' Day? → They ___ give flowers.",opts:["'ll","did","do","are"],ans:0,explain:"'ll = will – diễn đạt tương lai"},{q:"'Mid-Autumn Festival' là ngày gì?",opts:["Tết Trung Thu","Ngày Thiếu nhi","Ngày Nhà giáo","Ngày Thể thao"],ans:0,explain:"Mid-Autumn Festival = Tết Trung Thu (rằm tháng 8 âm lịch)"},{q:"Dùng giới từ nào: ___ Children's Day?",opts:["on","at","in","by"],ans:0,explain:"'on' + ngày cụ thể: on Children's Day, on Monday..."},{q:"'We'll' là rút gọn của gì?",opts:["We will","We would","We shall","We are"],ans:0,explain:"We'll = We will"}]
+  },
+  { uid:14, uname:"Staying healthy", uicon:"🥗", ucolor:"#54A0FF",
+    drag:[{word:"do yoga",meaning:"tập yoga",icon:"🧘"},{word:"drink fresh juice",meaning:"uống nước ép tươi",icon:"🥤"},{word:"eat healthy food",meaning:"ăn thức ăn lành mạnh",icon:"🥦"},{word:"play sports",meaning:"chơi thể thao",icon:"⚽"},{word:"twice a week",meaning:"hai lần một tuần",icon:"2️⃣"}],
+    typing:[{before:"How does she stay healthy? – She does yoga",blank:"twice",after:"a week.",hint:"2️⃣ Hai lần..."},{before:"How often does he play sports? – Three",blank:"times",after:"a week.",hint:"🔢 Ba lần..."},{before:"She",blank:"eats",after:"healthy food every day.",hint:"🥦 Động từ hiện tại (he/she)"},{before:"How does he stay healthy? – He drinks fresh",blank:"juice",after:"every morning.",hint:"🥤 Nước ép..."}],
+    reorder:[{words:["does","How","she","healthy","stay","?"],answer:"How does she stay healthy ?",hint:"Hỏi cách giữ sức khỏe"},{words:["yoga","She","does","and","vegetables","eats","."],answer:"She does yoga and eats vegetables .",hint:"Cách giữ sức khỏe"},{words:["often","How","he","does","play","sports","?"],answer:"How often does he play sports ?",hint:"Hỏi tần suất"},{words:["times","Three","a","week","."],answer:"Three times a week .",hint:"Trả lời tần suất"}],
+    mc:[{q:"How often does she do yoga? → ___ a week.",opts:["Twice","Two","Second","Both"],ans:0,explain:"Twice = hai lần (dùng cho tần suất, không dùng 'two')"},{q:"'Do morning exercise' nghĩa là gì?",opts:["tập thể dục buổi sáng","tập yoga","chơi thể thao","uống nước ép"],ans:0,explain:"Morning exercise = thể dục buổi sáng"},{q:"Thứ tự tần suất nào đúng nhất?",opts:["every day > 3 times > twice > once a week","once > twice > 3 times > every day","twice > every day > once > 3 times","3 times > once > twice > every day"],ans:0,explain:"every day(7/7) > 3 times(3/7) > twice(2/7) > once(1/7)"},{q:"She ___ healthy food every day. (he/she form)",opts:["eats","eat","eating","eaten"],ans:0,explain:"He/She → eats (thêm 's' vào động từ)"}]
+  },
+  { uid:15, uname:"Our health", uicon:"🏥", ucolor:"#5F27CD",
+    drag:[{word:"headache",meaning:"đau đầu",icon:"🤕"},{word:"sore throat",meaning:"đau họng",icon:"😷"},{word:"stomach ache",meaning:"đau bụng",icon:"🫄"},{word:"toothache",meaning:"đau răng",icon:"🦷"},{word:"have a rest",meaning:"nghỉ ngơi",icon:"🛌"}],
+    typing:[{before:"What's the matter? – I have a",blank:"headache",after:".",hint:"🤕 Đau đầu"},{before:"You should take some",blank:"medicine",after:".",hint:"💊 Uống thuốc"},{before:"You should go to the",blank:"dentist",after:".",hint:"🦷 Nha sĩ"},{before:"You should have a",blank:"rest",after:"at home.",hint:"🛌 Nghỉ ngơi"}],
+    reorder:[{words:["the","What's","matter","?"],answer:"What's the matter ?",hint:"Hỏi triệu chứng"},{words:["have","I","a","headache","."],answer:"I have a headache .",hint:"Nói triệu chứng"},{words:["should","You","some","take","medicine","."],answer:"You should take some medicine .",hint:"Đưa lời khuyên"},{words:["should","You","to","the","go","dentist","."],answer:"You should go to the dentist .",hint:"Lời khuyên về nha sĩ"}],
+    mc:[{q:"What's the matter? → I have a ___.",opts:["toothache","tooth aching","tooths ache","ache tooth"],ans:0,explain:"Toothache = đau răng (1 từ ghép)"},{q:"'You should' được dùng để làm gì?",opts:["đưa lời khuyên","hỏi ý kiến","ra lệnh","xin phép"],ans:0,explain:"'You should' = bạn nên... (lời khuyên nhẹ nhàng)"},{q:"I have a sore ___. (đau họng)",opts:["throat","mouth","head","stomach"],ans:0,explain:"Sore throat = đau họng"},{q:"'Have a rest' nghĩa là gì?",opts:["nghỉ ngơi","ăn uống","vui chơi","đi bộ"],ans:0,explain:"Have a rest = nghỉ ngơi, nghỉ giải lao"}]
+  },
+  { uid:16, uname:"Seasons and the weather", uicon:"🌤️", ucolor:"#FF9F43",
+    drag:[{word:"autumn",meaning:"mùa thu",icon:"🍂"},{word:"spring",meaning:"mùa xuân",icon:"🌸"},{word:"summer",meaning:"mùa hè",icon:"☀️"},{word:"winter",meaning:"mùa đông",icon:"❄️"},{word:"jumper",meaning:"áo len",icon:"🧶"}],
+    typing:[{before:"How's the weather in summer? – It's",blank:"hot",after:".",hint:"🌡️ Mùa hè = ..."},{before:"What do you wear in winter? – I wear a",blank:"jumper",after:".",hint:"🧶 Áo len"},{before:"It is",blank:"cold",after:"in winter.",hint:"🥶 Mùa đông = ..."},{before:"Flowers bloom in",blank:"spring",after:".",hint:"🌸 Mùa có hoa nở"}],
+    reorder:[{words:["the","How's","weather","in","Ha","Noi","winter","in","?"],answer:"How's the weather in Ha Noi in winter ?",hint:"Hỏi thời tiết theo mùa"},{words:["cold","It's","."],answer:"It's cold .",hint:"Trả lời thời tiết"},{words:["you","What","wear","do","in","summer","usually","?"],answer:"What do you usually wear in summer ?",hint:"Hỏi mặc gì theo mùa"},{words:["a","I","blouse","wear","and","trousers","."],answer:"I wear a blouse and trousers .",hint:"Mô tả trang phục"}],
+    mc:[{q:"How's the weather in autumn? → It's ___.",opts:["cool","hot","cold","warm"],ans:0,explain:"Mùa thu thường mát mẻ (cool)"},{q:"'Jumper' là gì?",opts:["áo len / áo nỉ","quần dài","áo blouse","giày"],ans:0,explain:"Jumper = áo len hoặc áo nỉ (mặc mùa đông/thu)"},{q:"What do you wear in winter? → I wear a ___ and jeans.",opts:["jumper","blouse","t-shirt","shorts"],ans:0,explain:"Mùa đông mặc áo len (jumper) giữ ấm"},{q:"Mùa nào trong năm có hoa đào nở (Việt Nam)?",opts:["spring","summer","autumn","winter"],ans:0,explain:"Spring = mùa xuân – mùa hoa đào nở"}]
+  },
+  { uid:17, uname:"Stories for children", uicon:"📖", ucolor:"#FF6B6B",
+    drag:[{word:"ant",meaning:"con kiến",icon:"🐜"},{word:"fox",meaning:"con cáo",icon:"🦊"},{word:"grasshopper",meaning:"con châu chấu",icon:"🦗"},{word:"tortoise",meaning:"con rùa",icon:"🐢"},{word:"work hard",meaning:"làm việc chăm chỉ",icon:"💪"}],
+    typing:[{before:"Who are the main characters? – They're the tortoise and the",blank:"hare",after:".",hint:"🐰 Thỏ rừng"},{before:"How did the ant work? – It worked",blank:"hard",after:".",hint:"💪 Chăm chỉ"},{before:"The hare can run very",blank:"fast",after:".",hint:"🏃 Nhanh"},{before:"Snow White lived with seven",blank:"dwarfs",after:".",hint:"🧙 Người lùn"}],
+    reorder:[{words:["are","Who","the","main","characters","?"],answer:"Who are the main characters ?",hint:"Hỏi nhân vật chính"},{words:["the","They're","tortoise","and","the","hare","."],answer:"They're the tortoise and the hare .",hint:"Trả lời nhân vật"},{words:["did","How","the","ant","work","?"],answer:"How did the ant work ?",hint:"Hỏi cách làm gì"},{words:["hard","It","worked","."],answer:"It worked hard .",hint:"Trả lời cách thức"}],
+    mc:[{q:"How did the tortoise move? → It moved ___.",opts:["slowly","slow","slowing","slowness"],ans:0,explain:"Trạng từ cách thức: slow → slowly (thêm -ly)"},{q:"'Grasshopper' nghĩa là gì?",opts:["con châu chấu","con kiến","con quạ","con cáo"],ans:0,explain:"Grasshopper = con châu chấu"},{q:"'Sing beautifully' – 'beautifully' là loại từ gì?",opts:["trạng từ","tính từ","danh từ","động từ"],ans:0,explain:"Beautifully = beautiful + ly → trạng từ cách thức"},{q:"Trong truyện Rùa và Thỏ, ai thắng?",opts:["The tortoise","The hare","Both","Neither"],ans:0,explain:"The tortoise (rùa) thắng vì kiên trì và chăm chỉ"}]
+  },
+  { uid:18, uname:"Means of transport", uicon:"🚗", ucolor:"#48DBFB",
+    drag:[{word:"Dragon Bridge",meaning:"Cầu Rồng",icon:"🌉"},{word:"Ha Noi Opera House",meaning:"Nhà hát Lớn HN",icon:"🏛️"},{word:"by bicycle",meaning:"bằng xe đạp",icon:"🚲"},{word:"by bus",meaning:"bằng xe buýt",icon:"🚌"},{word:"on foot",meaning:"đi bộ",icon:"🚶"}],
+    typing:[{before:"How can I get to the museum? – You can get there by",blank:"bus",after:".",hint:"🚌 Xe buýt"},{before:"I go to school",blank:"by bicycle",after:"every day.",hint:"🚲 Xe đạp"},{before:"She goes to the market",blank:"on foot",after:".",hint:"🚶 Đi bộ (ngoại lệ!)"},{before:"Where do you want to visit? – I want to visit Dragon",blank:"Bridge",after:".",hint:"🌉 Cầu..."}],
+    reorder:[{words:["you","Where","to","want","do","visit","?"],answer:"Where do you want to visit ?",hint:"Hỏi muốn tham quan đâu"},{words:["visit","I","to","want","Dragon","Bridge","."],answer:"I want to visit Dragon Bridge .",hint:"Trả lời muốn tham quan"},{words:["can","How","I","get","to","the","museum","?"],answer:"How can I get to the museum ?",hint:"Hỏi phương tiện"},{words:["get","You","there","can","by","bus","."],answer:"You can get there by bus .",hint:"Trả lời phương tiện"}],
+    mc:[{q:"How can I get to the park? → You can get there ___.",opts:["on foot","by foot","with foot","in foot"],ans:0,explain:"'on foot' = đi bộ. KHÔNG dùng 'by foot' (ngoại lệ quan trọng!)"},{q:"'By bicycle' nghĩa là gì?",opts:["bằng xe đạp","bằng xe máy","đi bộ","bằng taxi"],ans:0,explain:"By bicycle = bằng xe đạp"},{q:"Where does she want to visit? → She ___ to visit Ha Noi Opera House.",opts:["wants","want","wanted","wanting"],ans:0,explain:"She → wants (thêm 's' cho he/she/it)"},{q:"'Dragon Bridge' là công trình nổi tiếng ở đâu?",opts:["Đà Nẵng","Hà Nội","Huế","TP. Hồ Chí Minh"],ans:0,explain:"Cầu Rồng (Dragon Bridge) nằm tại Đà Nẵng"}]
+  },
+  { uid:19, uname:"Places of interest", uicon:"🏔️", ucolor:"#A29BFE",
+    drag:[{word:"beautiful",meaning:"đẹp",icon:"😍"},{word:"exciting",meaning:"thú vị, hồi hộp",icon:"🎢"},{word:"fantastic",meaning:"tuyệt vời",icon:"🤩"},{word:"peaceful",meaning:"yên bình",icon:"🕊️"},{word:"far",meaning:"xa",icon:"🔭"}],
+    typing:[{before:"What do you think of Ba Na Hills? – I think it's",blank:"fantastic",after:".",hint:"🤩 Tuyệt vời"},{before:"How far is it from Ha Noi to Hue? – It's about 660",blank:"kilometres",after:".",hint:"🛣️ Đơn vị khoảng cách"},{before:"I think the beaches",blank:"are",after:"beautiful and peaceful.",hint:"🌊 Nhiều bãi biển → ..."},{before:"Is it",blank:"far",after:"from here?",hint:"🔭 Xa..."}],
+    reorder:[{words:["you","What","think","do","of","Ba","Na","Hills","?"],answer:"What do you think of Ba Na Hills ?",hint:"Hỏi ý kiến về địa điểm"},{words:["it's","I","think","fantastic","."],answer:"I think it's fantastic .",hint:"Đưa ra ý kiến"},{words:["far","How","is","it","from","Ha","Noi","to","Hue","?"],answer:"How far is it from Ha Noi to Hue ?",hint:"Hỏi khoảng cách"},{words:["about","It's","660","kilometres","."],answer:"It's about 660 kilometres .",hint:"Trả lời khoảng cách"}],
+    mc:[{q:"What do you think of the beach? → I think ___ beautiful.",opts:["it's","its","it","is"],ans:0,explain:"it's = it is – động từ liên kết cần thiết"},{q:"'Peaceful' nghĩa là gì?",opts:["yên bình","đẹp","thú vị","tuyệt vời"],ans:0,explain:"Peaceful = yên bình, thanh thản"},{q:"How far is it? → It's ___ 40 kilometres.",opts:["about","around about","very","nearly about"],ans:0,explain:"'about' = khoảng chừng (dùng 1 từ, không ghép)"},{q:"I think they're ___. (nhiều địa điểm đẹp)",opts:["beautiful","beauty","beautifully","beautifull"],ans:0,explain:"Sau 'they're' dùng tính từ: beautiful"}]
+  },
+  { uid:20, uname:"Our summer holidays", uicon:"🏖️", ucolor:"#FD79A8",
+    drag:[{word:"Phu Quoc Island",meaning:"Đảo Phú Quốc",icon:"🏝️"},{word:"Phong Nha Cave",meaning:"Hang Phong Nha",icon:"🕳️"},{word:"go camping",meaning:"đi cắm trại",icon:"⛺"},{word:"practise swimming",meaning:"luyện bơi lội",icon:"🏊"},{word:"visit an eco-farm",meaning:"thăm trang trại sinh thái",icon:"🌾"}],
+    typing:[{before:"Where are you going to visit? – I'm going to visit Phu Quoc",blank:"Island",after:".",hint:"🏝️ Đảo..."},{before:"She's going to",blank:"practise",after:"swimming this summer.",hint:"🏊 Luyện tập..."},{before:"They're going to join a music",blank:"club",after:".",hint:"🎵 Câu lạc bộ..."},{before:"We're going to go",blank:"camping",after:"near the river.",hint:"⛺ Cắm trại"}],
+    reorder:[{words:["you","Where","going","are","to","visit","summer","this","?"],answer:"Where are you going to visit this summer ?",hint:"Hỏi kế hoạch hè"},{words:["going","I'm","to","visit","Phu","Quoc","Island","."],answer:"I'm going to visit Phu Quoc Island .",hint:"Kế hoạch tham quan"},{words:["you","What","going","are","to","do","summer","this","?"],answer:"What are you going to do this summer ?",hint:"Hỏi sẽ làm gì mùa hè"},{words:["going","I'm","to","camping","go","."],answer:"I'm going to go camping .",hint:"Kế hoạch cắm trại"}],
+    mc:[{q:"Where are you going to visit? → I'm ___ to visit Phu Quoc Island.",opts:["going","go","went","goes"],ans:0,explain:"be going to: am/is/are + going to + V"},{q:"'Visit an eco-farm' nghĩa là gì?",opts:["thăm trang trại sinh thái","thăm thủy cung","đi cắm trại","tham gia CLB"],ans:0,explain:"Eco-farm = trang trại sinh thái (thân thiện với môi trường)"},{q:"She ___ going to practise swimming. (he/she)",opts:["is","are","am","be"],ans:0,explain:"She → is going to (không dùng 'are' hay 'am')"},{q:"'Going to' khác 'will' ở điểm nào?",opts:["going to = kế hoạch đã có trước","going to = quyết định ngay lúc nói","Cả hai như nhau","will = kế hoạch đã có trước"],ans:0,explain:"'going to' = kế hoạch đã quyết định từ trước; 'will' = quyết định ngay lúc nói"}]
+  }
+];
+
+// ==================== GAME STATE ====================
+let currentGame = 'drag';
+let currentGameUnit = 0;
+
+// ==================== GAME UNIT SELECTOR ====================
+function buildGameUnitSelector(){
+  const el = document.getElementById('gameUnitSelector');
+  if(!el) return;
+  el.innerHTML = UNIT_GAMES.map((u,i)=>`
+    <button class="unit-pill ${i===currentGameUnit?'active':''}"
+      style="${i===currentGameUnit?'background:'+u.ucolor+';color:#fff;border-color:'+u.ucolor:''}"
+      onclick="selectGameUnit(${i})">
+      ${u.uicon} Unit ${u.uid}
+    </button>`).join('');
+}
+
+function selectGameUnit(i){
+  currentGameUnit = i;
+  buildGameUnitSelector();
+  initGame(currentGame);
+}
+
+function selectGame(type){
+  currentGame = type;
+  document.querySelectorAll('.game-type-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('gbtn-'+type).classList.add('active');
+  initGame(type);
+}
+
+function initGame(type){
+  const u = UNIT_GAMES[currentGameUnit];
+  if(type==='drag') initDragGame(u);
+  else if(type==='mc') initMCGame(u);
+  else if(type==='typing') initTypingGame(u);
+  else if(type==='reorder') initReorderGame(u);
+}
+
+// ==================== DRAG & DROP ====================
+let ddState = {pairs:[],answers:{},score:0};
+
+function initDragGame(u){
+  const selected = [...u.drag].sort(()=>Math.random()-0.5);
+  const meanings = [...selected].sort(()=>Math.random()-0.5);
+  ddState = {pairs:selected, answers:{}, score:0};
+
+  document.getElementById('gameArea').innerHTML = `
+    <div class="game-header">
+      <div style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.95rem;color:var(--txt2)">${u.uicon} Unit ${u.uid} · Kéo nghĩa vào đúng từ</div>
+      <div class="game-score">⭐ <span id="ddScore">0</span>/${selected.length}</div>
+    </div>
+    <div class="game-progress"><div class="game-progress-bar" id="ddBar" style="width:0%"></div></div>
+    <div class="dd-pairs">
+      <div class="dd-col">
+        <div class="dd-col-title">🔤 Từ tiếng Anh</div>
+        ${selected.map((p,i)=>`
+        <div class="dd-slot" id="slot-${i}" data-idx="${i}"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="dropItem(event,${i})">
+          <span style="margin-right:0.5rem;font-size:1.1rem">${p.icon}</span>${p.word}
+        </div>`).join('')}
+      </div>
+      <div class="dd-col">
+        <div class="dd-col-title">📖 Nghĩa tiếng Việt</div>
+        ${meanings.map((p,i)=>`
+        <div class="dd-item" id="dditem-${i}" draggable="true" data-meaning="${p.meaning}" data-word="${p.word}"
+          ondragstart="dragStart(event,'${p.meaning.replace(/'/g,"\\'")}','${p.word.replace(/'/g,"\\'")}')">
+          ${p.meaning}
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="feedback-box" id="ddFb"></div>`;
+  addTouchDrag();
+}
+
+function dragStart(e,meaning,word){
+  e.dataTransfer.setData('meaning',meaning);
+  e.dataTransfer.setData('word',word);
+  e.target.classList.add('dragging');
+}
+
+function dropItem(e,idx){
+  e.preventDefault();
+  const slot = document.getElementById('slot-'+idx);
+  slot.classList.remove('drag-over');
+  if(ddState.answers[idx]) return;
+  const meaning = e.dataTransfer.getData('meaning');
+  const correct = ddState.pairs[idx].meaning === meaning;
+  document.querySelectorAll('.dd-item').forEach(el=>{if(el.dataset.meaning===meaning) el.style.opacity=correct?'0.3':'1';});
+  if(correct){
+    slot.innerHTML=`<span style="margin-right:0.4rem">${ddState.pairs[idx].icon}</span>${meaning}`;
+    slot.classList.add('filled','correct');
+    ddState.answers[idx]=true;
+    ddState.score++;
+    document.getElementById('ddScore').textContent=ddState.score;
+    document.getElementById('ddBar').style.width=(ddState.score/ddState.pairs.length*100)+'%';
+    showFbDd('✅ Đúng! "'+ddState.pairs[idx].word+'" = '+meaning,'correct');
+    if(ddState.score===ddState.pairs.length) setTimeout(()=>{
+      document.getElementById('gameArea').innerHTML=`<div class="game-result"><div class="result-emoji">🏆</div><div class="result-title">Xuất sắc!</div><div class="result-score">Ghép đúng tất cả ${ddState.score}/${ddState.pairs.length} cặp từ!</div><button class="play-again-btn" onclick="initGame('drag')">🎮 Chơi lại</button></div>`;
+      recordStudy();
+    },700);
+  } else {
+    slot.classList.add('wrong');
+    setTimeout(()=>slot.classList.remove('wrong'),800);
+    showFbDd('❌ Chưa đúng! Thử lại nhé!','wrong');
+  }
+}
+
+function showFbDd(msg,type){
+  const fb=document.getElementById('ddFb');
+  fb.textContent=msg; fb.className='feedback-box show '+type;
+  setTimeout(()=>fb.classList.remove('show'),1800);
+}
+
+function addTouchDrag(){
+  let dragged=null;
+  document.querySelectorAll('.dd-item').forEach(el=>{
+    el.addEventListener('touchstart',e=>{dragged=el;el.style.opacity='0.6';},{passive:true});
+    el.addEventListener('touchend',e=>{
+      if(!dragged) return;
+      const t=e.changedTouches[0];
+      const target=document.elementFromPoint(t.clientX,t.clientY);
+      const slot=target?.closest('.dd-slot');
+      if(slot){
+        const idx=parseInt(slot.dataset.idx);
+        if(!isNaN(idx)&&!ddState.answers[idx]){
+          const meaning=dragged.dataset.meaning;
+          const correct=ddState.pairs[idx].meaning===meaning;
+          dragged.style.opacity=correct?'0.3':'1';
+          if(correct){
+            slot.innerHTML=`<span style="margin-right:0.4rem">${ddState.pairs[idx].icon}</span>${meaning}`;
+            slot.classList.add('filled','correct');
+            ddState.answers[idx]=true; ddState.score++;
+            document.getElementById('ddScore').textContent=ddState.score;
+            document.getElementById('ddBar').style.width=(ddState.score/ddState.pairs.length*100)+'%';
+            showFbDd('✅ Đúng!','correct');
+            if(ddState.score===ddState.pairs.length) setTimeout(()=>{
+              document.getElementById('gameArea').innerHTML=`<div class="game-result"><div class="result-emoji">🏆</div><div class="result-title">Xuất sắc!</div><div class="result-score">Hoàn thành ${ddState.score}/${ddState.pairs.length}!</div><button class="play-again-btn" onclick="initGame('drag')">🎮 Chơi lại</button></div>`;
+              recordStudy();
+            },700);
+          } else showFbDd('❌ Chưa đúng!','wrong');
+        }
+      }
+      dragged=null;
+    },{passive:true});
+  });
+}
+
+// ==================== MULTIPLE CHOICE ====================
+let mcState = {data:[],idx:0,score:0};
+
+function initMCGame(u){
+  mcState = {data:[...u.mc].sort(()=>Math.random()-0.5), idx:0, score:0};
+  renderMCQ(u);
+}
+
+function renderMCQ(u){
+  if(!u) u = UNIT_GAMES[currentGameUnit];
+  const q = mcState.data[mcState.idx];
+  const total = mcState.data.length;
+  const letters = ['A','B','C','D'];
+  document.getElementById('gameArea').innerHTML = `
+    <div class="game-header">
+      <div style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.95rem;color:var(--txt2)">${u.uicon} Unit ${u.uid} · Câu ${mcState.idx+1}/${total}</div>
+      <div class="game-score">⭐ <span id="mcScore">${mcState.score}</span>/${total}</div>
+    </div>
+    <div class="game-progress"><div class="game-progress-bar" id="mcBar" style="width:${mcState.idx/total*100}%"></div></div>
+    <div class="q-label">Chọn đáp án đúng</div>
+    <div class="game-question">${q.q}</div>
+    <div class="mc-options" id="mcOpts">
+      ${q.opts.map((o,i)=>`
+      <button class="mc-opt" id="mcopt-${i}" onclick="checkMC(${i})">
+        <span class="mc-opt-letter" style="background:${['#FF6B6B','#FF9F43','#54A0FF','#1DD1A1'][i]};opacity:0.2;color:${['#FF6B6B','#FF9F43','#54A0FF','#1DD1A1'][i]}">${letters[i]}</span>
+        ${o}
+      </button>`).join('')}
+    </div>
+    <div class="explain-box" id="mcExplain"></div>
+    <button class="next-btn" id="mcNext" onclick="nextMC()">Câu tiếp ▶</button>`;
+}
+
+function checkMC(chosen){
+  const q = mcState.data[mcState.idx];
+  const opts = document.querySelectorAll('.mc-opt');
+  opts.forEach(o=>o.onclick=null);
+  const explain = document.getElementById('mcExplain');
+  const next = document.getElementById('mcNext');
+  if(chosen===q.ans){
+    opts[chosen].classList.add('correct');
+    mcState.score++;
+    document.getElementById('mcScore').textContent=mcState.score;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[q.ans].classList.add('reveal');
+  }
+  explain.textContent=q.explain;
+  explain.className='explain-box show';
+  next.className='next-btn show';
+  const pct=(mcState.idx+1)/mcState.data.length*100;
+  document.getElementById('mcBar').style.width=pct+'%';
+}
+
+function nextMC(){
+  mcState.idx++;
+  if(mcState.idx>=mcState.data.length){
+    const s=mcState.score, t=mcState.data.length, pct=Math.round(s/t*100);
+    document.getElementById('gameArea').innerHTML=`<div class="game-result">
+      <div class="result-emoji">${pct>=80?'🏆':pct>=60?'🌟':'💪'}</div>
+      <div class="result-title">${pct>=80?'Tuyệt vời!':pct>=60?'Khá tốt!':'Cố lên nhé!'}</div>
+      <div class="result-score">Đúng ${s}/${t} câu (${pct}%)</div>
+      <button class="play-again-btn" onclick="initGame('mc')">🎮 Chơi lại</button>
+    </div>`;
+    if(pct>=60) recordStudy();
+  } else renderMCQ();
+}
+
+// ==================== TYPING ====================
+let typingState = {data:[],idx:0,score:0};
+
+function initTypingGame(u){
+  typingState = {data:[...u.typing].sort(()=>Math.random()-0.5), idx:0, score:0};
+  renderTypingQ(u);
+}
+
+function renderTypingQ(u){
+  if(!u) u=UNIT_GAMES[currentGameUnit];
+  const q=typingState.data[typingState.idx];
+  const total=typingState.data.length;
+  document.getElementById('gameArea').innerHTML=`
+    <div class="game-header">
+      <div style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.95rem;color:var(--txt2)">${u.uicon} Unit ${u.uid} · Câu ${typingState.idx+1}/${total}</div>
+      <div class="game-score">⭐ <span id="typScore">${typingState.score}</span>/${total}</div>
+    </div>
+    <div class="game-progress"><div class="game-progress-bar" id="typBar" style="width:${typingState.idx/total*100}%"></div></div>
+    <div class="q-label">Điền từ còn thiếu vào chỗ trống</div>
+    <div class="typing-sentence">${q.before} <input type="text" class="blank-input" id="blankInput" placeholder="..." autocomplete="off" autocorrect="off" spellcheck="false"> ${q.after}</div>
+    <div class="typing-hint">💡 Gợi ý: ${q.hint}</div>
+    <button class="check-btn" onclick="checkTyping()">✔️ Kiểm tra</button>
+    <div class="feedback-box" id="typFb"></div>
+    <button class="next-btn" id="typNext" onclick="nextTyping()">Câu tiếp ▶</button>`;
+  const inp=document.getElementById('blankInput');
+  inp.addEventListener('keypress',e=>{if(e.key==='Enter') checkTyping();});
+  inp.focus();
+}
+
+function checkTyping(){
+  const q=typingState.data[typingState.idx];
+  const val=document.getElementById('blankInput').value.trim().toLowerCase();
+  const correct=val===q.blank.toLowerCase();
+  const input=document.getElementById('blankInput');
+  const fb=document.getElementById('typFb');
+  input.disabled=true;
+  if(correct){
+    input.classList.add('correct');
+    fb.textContent='🎉 Chính xác! "'+q.blank+'" là đúng!';
+    fb.className='feedback-box show correct';
+    typingState.score++;
+    document.getElementById('typScore').textContent=typingState.score;
+  } else {
+    input.classList.add('wrong');
+    input.value=q.blank;
+    fb.textContent='❌ Chưa đúng. Đáp án là: "'+q.blank+'"';
+    fb.className='feedback-box show wrong';
+  }
+  document.getElementById('typNext').className='next-btn show';
+  document.getElementById('typBar').style.width=((typingState.idx+1)/typingState.data.length*100)+'%';
+}
+
+function nextTyping(){
+  typingState.idx++;
+  if(typingState.idx>=typingState.data.length){
+    const s=typingState.score,t=typingState.data.length,pct=Math.round(s/t*100);
+    document.getElementById('gameArea').innerHTML=`<div class="game-result">
+      <div class="result-emoji">${pct>=80?'🏆':pct>=60?'🌟':'💪'}</div>
+      <div class="result-title">${pct>=80?'Tuyệt vời!':pct>=60?'Khá tốt!':'Cố lên nhé!'}</div>
+      <div class="result-score">Điền đúng ${s}/${t} câu (${pct}%)</div>
+      <button class="play-again-btn" onclick="initGame('typing')">🎮 Chơi lại</button>
+    </div>`;
+    if(pct>=60) recordStudy();
+  } else renderTypingQ();
+}
+
+// ==================== REORDER ====================
+let reorderState={data:[],idx:0,score:0};
+
+function initReorderGame(u){
+  reorderState={data:[...u.reorder].sort(()=>Math.random()-0.5),idx:0,score:0};
+  renderReorderQ(u);
+}
+
+function renderReorderQ(u){
+  if(!u) u=UNIT_GAMES[currentGameUnit];
+  const q=reorderState.data[reorderState.idx];
+  const shuffled=[...q.words].sort(()=>Math.random()-0.5);
+  const total=reorderState.data.length;
+  document.getElementById('gameArea').innerHTML=`
+    <div class="game-header">
+      <div style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.95rem;color:var(--txt2)">${u.uicon} Unit ${u.uid} · Câu ${reorderState.idx+1}/${total}</div>
+      <div class="game-score">⭐ <span id="reScore">${reorderState.score}</span>/${total}</div>
+    </div>
+    <div class="game-progress"><div class="game-progress-bar" id="reBar" style="width:${reorderState.idx/total*100}%"></div></div>
+    <div class="q-label">Sắp xếp thành câu đúng · 💡 ${q.hint}</div>
+    <div class="reorder-answer-label">📝 Câu của bạn (nhấn từ để xóa):</div>
+    <div class="reorder-answer" id="answerArea"></div>
+    <div style="font-size:0.72rem;color:var(--txt2);margin:0.4rem 0 0.3rem;font-weight:700">🔤 Kho từ (nhấn để thêm):</div>
+    <div class="reorder-bank" id="bankArea">
+      ${shuffled.map((w,i)=>`<span class="word-token" id="tok-${i}" onclick="moveToken(${i},'bank')">${w}</span>`).join('')}
+    </div>
+    <button class="check-btn" onclick="checkReorder()">✔️ Kiểm tra câu</button>
+    <div class="feedback-box" id="reFb"></div>
+    <button class="next-btn" id="reNext" onclick="nextReorder()">Câu tiếp ▶</button>`;
+}
+
+function moveToken(idx,from){
+  const tok=document.getElementById('tok-'+idx);
+  const bank=document.getElementById('bankArea');
+  const ans=document.getElementById('answerArea');
+  if(!tok||!bank||!ans) return;
+  if(from==='bank'){
+    tok.classList.add('in-answer'); ans.appendChild(tok);
+    tok.onclick=()=>moveToken(idx,'answer');
+  } else {
+    tok.classList.remove('in-answer'); bank.appendChild(tok);
+    tok.onclick=()=>moveToken(idx,'bank');
+  }
+}
+
+function checkReorder(){
+  const q=reorderState.data[reorderState.idx];
+  const tokens=document.getElementById('answerArea').querySelectorAll('.word-token');
+  const userAns=Array.from(tokens).map(t=>t.textContent.trim()).join(' ');
+  const correct=userAns.toLowerCase()===q.answer.toLowerCase();
+  const fb=document.getElementById('reFb');
+  tokens.forEach(t=>t.classList.add(correct?'correct':'wrong'));
+  document.querySelectorAll('#bankArea .word-token, #answerArea .word-token').forEach(t=>t.onclick=null);
+  if(correct){
+    fb.textContent='🎉 Chính xác! Câu hoàn toàn đúng!';
+    fb.className='feedback-box show correct';
+    reorderState.score++;
+    document.getElementById('reScore').textContent=reorderState.score;
+  } else {
+    fb.innerHTML='❌ Chưa đúng. Câu đúng: <strong>"'+q.answer+'"</strong>';
+    fb.className='feedback-box show wrong';
+  }
+  document.getElementById('reNext').className='next-btn show';
+  document.getElementById('reBar').style.width=((reorderState.idx+1)/reorderState.data.length*100)+'%';
+}
+
+function nextReorder(){
+  reorderState.idx++;
+  if(reorderState.idx>=reorderState.data.length){
+    const s=reorderState.score,t=reorderState.data.length,pct=Math.round(s/t*100);
+    document.getElementById('gameArea').innerHTML=`<div class="game-result">
+      <div class="result-emoji">${pct>=80?'🏆':pct>=60?'🌟':'💪'}</div>
+      <div class="result-title">${pct>=80?'Tuyệt vời!':pct>=60?'Khá tốt!':'Cố lên nhé!'}</div>
+      <div class="result-score">Đúng ${s}/${t} câu (${pct}%)</div>
+      <button class="play-again-btn" onclick="initGame('reorder')">🎮 Chơi lại</button>
+    </div>`;
+    if(pct>=60) recordStudy();
+  } else renderReorderQ();
+}
+
+
+// ==================== STREAK ====================
+function getTodayStr(){
+  return new Date().toISOString().split('T')[0];
+}
+function getStreak(){
+  return JSON.parse(localStorage.getItem('eng5_streak')||'{"current":0,"best":0,"days":[],"total":0,"words":0}');
+}
+function saveStreak(s){
+  localStorage.setItem('eng5_streak', JSON.stringify(s));
+}
+
+function recordStudy(){
+  const s = getStreak();
+  const today = getTodayStr();
+  if(s.days.includes(today)) return;
+  s.days.push(today);
+  s.total++;
+  s.words += Math.floor(Math.random()*5)+3;
+  // Calculate streak
+  s.days.sort();
+  let cur = 1;
+  for(let i=s.days.length-1;i>0;i--){
+    const d1 = new Date(s.days[i]), d2 = new Date(s.days[i-1]);
+    const diff = (d1-d2)/(1000*60*60*24);
+    if(diff===1) cur++;
+    else break;
+  }
+  s.current = cur;
+  s.best = Math.max(s.best, cur);
+  saveStreak(s);
+  updateStreakToday();
+  updateHeaderStreak();
+}
+
+function updateStreakToday(){
+  const s = getStreak();
+  const today = getTodayStr();
+  const tasks = [
+    {label:'Xem từ vựng hôm nay', done: s.days.includes(today)},
+    {label:'Làm ít nhất 1 trò chơi', done: s.days.includes(today)},
+    {label:'Nghe phát âm 3 từ', done: false}
+  ];
+  const el = document.getElementById('todayTasks');
+  if(el) el.innerHTML = tasks.map(t=>`
+    <div class="task-item">
+      <div class="task-check ${t.done?'done':''}">${t.done?'✓':''}</div>
+      <span style="${t.done?'text-decoration:line-through;color:#aaa':''}">${t.label}</span>
+    </div>`).join('');
+}
+
+function updateHeaderStreak(){
+  const s = getStreak();
+  document.getElementById('headerStreak').textContent = `🔥 ${s.current} ngày liên tiếp`;
+}
+
+function renderStreak(){
+  const s = getStreak();
+  document.getElementById('streakBigNum').textContent = s.current;
+  document.getElementById('statTotal').textContent = s.total;
+  document.getElementById('statBest').textContent = s.best;
+  document.getElementById('statWords').textContent = s.words;
+  document.getElementById('streakSubText').textContent = s.current>0 ? `Tuyệt vời! Duy trì ${s.current} ngày rồi đó!` : 'Hãy bắt đầu học hôm nay!';
+  renderCalendar(s);
+  renderBadges(s);
+  updateStreakToday();
+}
+
+function renderCalendar(s){
+  const labels = document.getElementById('calDayLabels');
+  const grid = document.getElementById('calGrid');
+  const days = ['CN','T2','T3','T4','T5','T6','T7'];
+  labels.innerHTML = days.map(d=>`<div class="cal-day-label">${d}</div>`).join('');
+  
+  const today = new Date();
+  const year = today.getFullYear(), month = today.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const todayStr = getTodayStr();
+  
+  let cells = '';
+  for(let i=0;i<firstDay;i++) cells += `<div></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const studied = s.days.includes(dateStr);
+    const isToday = dateStr === todayStr;
+    cells += `<div class="cal-day ${studied?'studied':''} ${isToday?'today':''}">${d}</div>`;
+  }
+  grid.innerHTML = cells;
+}
+
+function renderBadges(s){
+  const badges = [
+    {emoji:'🌱',name:'Bắt đầu',desc:'Học ngày đầu tiên',earned:s.total>=1,req:1},
+    {emoji:'🔥',name:'3 ngày',desc:'3 ngày liên tiếp',earned:s.best>=3,req:3},
+    {emoji:'⭐',name:'7 ngày',desc:'1 tuần liên tiếp',earned:s.best>=7,req:7},
+    {emoji:'🏅',name:'14 ngày',desc:'2 tuần liên tiếp',earned:s.best>=14,req:14},
+    {emoji:'🏆',name:'30 ngày',desc:'1 tháng liên tiếp',earned:s.best>=30,req:30},
+    {emoji:'📚',name:'10 từ',desc:'Học 10 từ vựng',earned:s.words>=10,req:10},
+    {emoji:'🎯',name:'50 từ',desc:'Học 50 từ vựng',earned:s.words>=50,req:50},
+    {emoji:'💎',name:'100 từ',desc:'Học 100 từ vựng',earned:s.words>=100,req:100}
+  ];
+  document.getElementById('badgesGrid').innerHTML = badges.map(b=>`
+    <div class="badge-item ${b.earned?'earned':''}">
+      <span class="badge-emoji">${b.earned?b.emoji:'🔒'}</span>
+      <div class="badge-name">${b.name}</div>
+      <div class="badge-lock">${b.earned?'✅ Đã đạt':''+b.req}</div>
+    </div>`).join('');
+}
+
+// ==================== INIT ====================
+function init(){
+  renderVocab(0);
+  renderGrammar(0);
+  buildGameUnitSelector();
+  initGame('drag');
+  updateHeaderStreak();
+  updateStreakToday();
+  setTimeout(recordStudy, 5000);
+}
+
+init();
+</script>
+</body>
+</html>
